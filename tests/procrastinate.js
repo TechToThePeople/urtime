@@ -1,13 +1,16 @@
 // this allows to run a command from the cli
 "use strict";
 
+var Bot = require('../lib/bot.js').Bot
+  , User = require('../lib/user.js').User
+
 var msg = process.argv;
 msg.shift(); //node
 msg.shift(); //do.js
 msg = msg.join (" "); 
   
-var bot=require ('../lib/bot.js').bot ({'name':'cli'});
-var user=require ('../lib/user.js').user(process.env.LOGNAME,bot);
+var bot = new Bot({'name':'cli'});
+var user = new User(process.env.LOGNAME,bot);
 
 user.start();
 

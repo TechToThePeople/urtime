@@ -5,9 +5,10 @@ var path = require('path');
 var filed = require('filed');
 var mime = require('mime');
 
-var user=require ('./lib/user.js');
-var bot=require ('./lib/bot.js').bot ({'name':'web'});
+var User = require('./lib/user.js').User;
+var Bot = require ('./lib/bot.js').Bot;
 
+var bot = new Bot({'name':'web'})
 
 var users = {};
 
@@ -82,7 +83,7 @@ server.post('/user/connect', function(req, res, next) {
     return next();
   };
   res.send("new user "+req.params.user);
-  users[req.params.user] = (new user.new(req.params.user));
+  users[req.params.user] = new User(req.params.user);
   return next();
 });
 
