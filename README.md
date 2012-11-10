@@ -1,3 +1,16 @@
+Hey, mostly a test so far if I can deploy
+## Intro ##
+We are building a timetracking bot over xmpp. Think of a personal assistant available 24/7, and that is smart enough to use your online/away status to know your work pattern.
+
+The bot (mostly xmpp, but likely with a web interface ala github for the knockout) understand a few commands (todo? add task {whatever}, clock in {task}, clock out {description...}. On sunday or if we got more people joining, we plan to add a cli interface to make it possible to integrate with git for instance (git pull == clock in, git push == clock out).
+
+We are looking for help in general, but more specifically on the visualisation. If you want to bring your d3.js Cubism.js rickshaw.js to the mix, you'd be more than welcome
+
+We want to interface to existing CRM/Project managers. If you have one that has a rest interface you'd want to push in, please raise your hand.
+
+
+
+
 # Hello Tech To The People!
 
 ## Deploy instructions
