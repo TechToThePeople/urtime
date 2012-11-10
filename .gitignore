@@ -2,5 +2,7 @@ node_modules
 *.swp
 task
 timesheet
+*/.git
+static/inspiritas-bootstrap/*.less
 conf
 !conf/example.json
