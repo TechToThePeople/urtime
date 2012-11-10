@@ -88,6 +88,10 @@ server.get('/', function (req, res, next) {
  return serve(req, res, next);
 });
 
+server.get(/\/inspiritas-bootstrap\/\S+/, function (req, res, next) {
+ return serve(req, res, next);
+});
+
 server.get(/\/public\/\S+/, function (req, res, next) {
  return serve(req, res, next);
 });

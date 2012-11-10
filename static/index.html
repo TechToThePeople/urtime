@@ -2,6 +2,10 @@
   <head>
     <title>HAL my time, the friendly bot that track your time</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="/inspiritas-bootstrap/bootstrap/js/bootstrap.min.js"></script>
+
+    <link href="/inspiritas-bootstrap/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/inspiritas-bootstrap/inspiritas.css" rel="stylesheet" type="text/css" />
 <script>
 var user="xavier";
 jQuery(function($){
@@ -9,7 +13,7 @@ jQuery(function($){
     console.log($("#cmd").val());
     $.ajax({
       url: "/"+user+"/do/"+$("#cmd").val(),
-      method: "post",
+      type: "post",
       success: function(data) {
         $('#result').html(data);
         console.log('Load was performed.');
@@ -21,10 +25,116 @@ jQuery(function($){
 </script>
   </head>
   <body>
-    <form id="bot">
-      <label>Command</label><input id="cmd" title="Type your command (or help)" />
-    </form>
-    <div id="result">
+<div class="navbar navbar-static-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+      <a class="brand" href="#">HAL my time</a>
+      <span class="tagline">the friendly bot that tracks your time</span>
+
+      <div class="nav-collapse collapse" id="main-menu">
+        <div class="auth pull-right">
+            <!--img class="avatar" src="images/littke.png"-->
+            <span class="name">Tech To The People</span><br/>
+            <span class="links">
+                <a href="#">Settings</a>
+                <a href="#">Logout</a>
+            </span>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="row-fluid">
+        <div class="span3">
+            <aside>
+            </aside>
+        </div>
+        <div class="span9" id="content-wrapper">
+            <div id="content">
+
+               <section id="bot">
+                  <div class="sub-header">
+                    <h1>Bot</h1>
+                  </div>
+
+                  <div class="row-fluid">
+                    <div class="span12">
+
+
+    <form id="bot" class="form-horizontal">
+                          <div class="control-group">
+      <label class="control-label" for="cmd">Command</label>
+       <div class="controls">
+        <input name="cmd" id="cmd" title="Type your command (or help)" />
+       </div>
+                          </div>
+    </form>
+</div>
+</section>
+
+              <section id="miscellaneous">
+                <div class="sub-header">
+                  <h2>Result</h2>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span12" id="result">
+                    </div>
+                </div>
+              </section>
+  
+
+              <section id="miscellaneous">
+                <div class="sub-header">
+                  <h2>Alerts</h2>
+                </div>
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="alert alert-block">
+                          <a class="close">&times;</a>
+                          <h4 class="alert-heading">Alert block</h4>
+                          <p>Best check yo self, you're not looking too good. Nulla vitae elit libero, a pharetra augue. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fluid">
+                  <div class="span4">
+                    <div class="alert alert-error">
+                      <a class="close">&times;</a>
+                      <strong>Error</strong> Change a few things up and try submitting again.
+                    </div>
+                  </div>
+                  <div class="span4">
+                    <div class="alert alert-success">
+                      <a class="close">&times;</a>
+                      <strong>Success</strong> You successfully read this important alert message.
+                    </div>
+                  </div>
+                  <div class="span4">
+                    <div class="alert alert-info">
+                      <a class="close">&times;</a>
+                      <strong>Information</strong> This alert needs your attention, but it's not super important.
+                    </div>
+                  </div>
+                </div>
+            </section>
+
+<!--iframe src="http://nodeknockout.com/iframe/tech-to-the-people" frameborder=0 scrolling=no allowtransparency=true width=115 height=25>
+</iframe-->
+
+            </div>
+        </div>
+    </div>
+</div><!-- /container -->
+
   </body>
 </html>
