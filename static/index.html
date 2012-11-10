@@ -29,7 +29,18 @@ jQuery(function($){
   } else {
     authenticate(user);    
   }
+  $(".alternate").hide();
+  $("section#log").slideDown("slow");
 
+  $("aside a").click(function() {
+    var section = this.id.slice(3); // go-{section}
+    $("aside li").removeClass("selected");
+    $(".alternate").slideUp("slow");
+    $("section#"+section).slideDown("slow");
+    $(this).parent().addClass("selected");
+    console.log (this.id.slice(3));
+    return false;
+  });
   $("#signin").submit(function(){
     var user=$("#signin-name").val();
     if (user == "")
@@ -49,13 +60,14 @@ jQuery(function($){
 
 
   $("#bot").submit(function(){
-    $('#result').append("<div class='alert alert-info'>"+$("#cmd").val()+"</div>");
+    var uniq = 'reply' + (new Date()).getTime();
+    $('#result').prepend("<div id='"+uniq+"' class='alert alert-info'>"+$("#cmd").val()+"</div>");
     $.ajax({
       url: "/user/do",
       data:{user:user,cmd:$("#cmd").val()},
       type: "post",
       success: function(data) {
-        $('#result').append("<div class='alert alert-success'>"+data+"</div>");
+        $('#'+uniq).append("<div class='alert alert-success'>"+data+"</div>");
       },
     });
     return false;
@@ -94,6 +106,25 @@ jQuery(function($){
     <div class="row-fluid">
         <div class="span3">
             <aside>
+                <nav>
+                    <ul class="nav">
+                      <li class="selected">
+                        <a id="go-log" href=""><i class="icon-eye-open icon-white"></i>Bot command</a>
+                      </li>
+                      <li>
+                        <a id="go-todo" href=""><i class="icon-tasks icon-white"></i>TODO List</a>
+                      </li>
+                      <li>
+                        <a id="go-timesheet" href=""><i class="icon-time icon-white"></i>Timesheet</a>
+                      </li>
+                      <li>
+                        <a id="go-timeline" href=""><i class="icon-picture icon-white"></i>Timeline</a>
+                      </li>
+                      <li>
+                        <a id="go-help" href=""><i class="icon-question-sign icon-white"></i>Help</a>
+                      </li>
+                    </ul>
+                </nav>
             </aside>
         </div>
         <div class="span9" id="content-wrapper">
@@ -128,7 +159,6 @@ We will not resell your contact details nor spam you in any way, shape or form.
                <section id="bot" class="authenticated">
                   <div class="sub-header">
                     <h1>Bot</h1>
-                  </div>
 
     <form id="bot" class="form-horizontal">
                   <div class="row-fluid well">
@@ -149,10 +179,9 @@ We will not resell your contact details nor spam you in any way, shape or form.
 </div>
     </form>
 </section>
-
-              <section id="answers" class="authenticated">
+<section id="log" class="alternate authenticated">
                 <div class="sub-header">
-                  <h2>Result</h2>
+                  <h2>Results</h2>
                 </div>
 
                 <div class="row-fluid">
@@ -161,6 +190,48 @@ We will not resell your contact details nor spam you in any way, shape or form.
                 </div>
               </section>
   
+<section id="todo" class="alternate authenticated">
+                <div class="sub-header">
+                  <h2>TODO list</h2>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                    </div>
+                </div>
+</section>
+
+<section id="timesheet" class="alternate authenticated">
+                <div class="sub-header">
+                  <h2>Timesheet</h2>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                    </div>
+                </div>
+</section>
+
+
+<section id="timeline" class="alternate authenticated">
+                <div class="sub-header">
+                  <h2>Timeline</h2>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                    </div>
+                </div>
+</section>
+
+
+<section id="help" class="alternate">
+                <div class="sub-header">
+                  <h2>Help</h2>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+Coming soon
+                    </div>
+                </div>
+</section>
 
               <section id="miscellaneous" style="display:none;">
                 <div class="sub-header">
