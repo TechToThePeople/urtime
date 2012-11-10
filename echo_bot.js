@@ -18,6 +18,15 @@ var cl = new xmpp.Client({
   port: conf.port
 });
 
+if (true) {
+  var emitt = cl.emit;
+  cl.emit = function() {
+    var args = arguments
+    console.log('cl.emit', args)
+    return emitt.apply(this, args)
+  }
+}
+
 // IqEngine can ask for the roster. Unfortunately, this does not really work.
 var iqEngine = new (require('./lib/iq-engine.js')).IqEngine(cl)
 console.log(iqEngine)
@@ -56,5 +65,5 @@ var requestElement = new xmpp.Element('iq', {type: 'get', id: 'abcdefgj', from: 
 var queryElement = new xmpp.Element('query', {xmlns: 'jabber:iq:roster'})
 requestElement.cnode(queryElement)
 // Commented out, because it crashes the bot.
-// cl.send(requestElement)
+cl.send(requestElement)
 
