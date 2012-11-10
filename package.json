@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "node-xmpp": "0.3.x",
-    "cjson": "git://github.com/tttp/node-cjson.git"
+    "cjson": "git://github.com/tttp/node-cjson.git",
+    "underscore": ">=1.4.2",
+    "stn": ">=0.0.8"
   },
   "engines": {
     "node": "0.8.x"
