@@ -1,5 +1,5 @@
 module.exports = function(bot){
   return {
-    "run": function(msg, user, bot){return "echo " + this.param(msg);},
+    "run": function(msg, user){return "say " + this.param(msg);},
   };
 };
