@@ -11,7 +11,6 @@ var users = {};
 
 //adapted from mcavage https://github.com/mcavage/node-restify/issues/101
 function serve(req, res, next) {
-console.log ("serving");
     var fname = path.normalize('./static' + req.path);
     var log = req.log;
 
@@ -61,14 +60,30 @@ var server = restify.createServer({
 
 });
 
+server.use(restify.throttle({
+  burst: 100,
+  rate: 50,
+  ip: true,
+  overrides: {
+    '127.0.0.1': {
+      rate: 0,        // unlimited
+      burst: 0
+    }
+  }
+}));
+server.use(restify.bodyParser({ 
+}));
+
 server.get('/:user/connect', function(req, res, next) {
 res.contentType = 'application/json';
   res.send("new user "+req.params.user);
     return next();
 });
 
-server.post('/:user/do/:command', function(req, res, next) {
-  res.send("command "+req.params.command +" to run for "+req.params.user);
+server.post('/:userhash/do', function(req, res, next) {
+console.log(req);
+console.log(req.params);
+  res.send("command "+req.params.cmd +" to run for "+req.params.user);
   return next();
 });
 
@@ -104,7 +119,6 @@ server.get(/\/public\/\S+/, function (req, res, next) {
   return next();
 });
 */
-
 
 server.listen(8000);
 console.log('Server running at http://0.0.0.0:8000/');

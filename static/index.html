@@ -41,13 +41,13 @@ jQuery(function($){
 
 
   $("#bot").submit(function(){
-    console.log($("#cmd").val());
+    $('#result').append("<div class='alert alert-info'>"+$("#cmd").val()+"</div>");
     $.ajax({
-      url: "/"+user+"/do/"+$("#cmd").val(),
+      url: "/user/do",
+      data:{user:user,cmd:$("#cmd").val()},
       type: "post",
       success: function(data) {
         $('#result').append("<div class='alert alert-success'>"+data+"</div>");
-        console.log('Load was performed.');
       },
     });
     return false;
@@ -130,7 +130,7 @@ We will not resell your contact details nor spam you in any way, shape or form.
                           <div class="control-group">
       <label class="control-label" for="cmd">Command</label>
        <div class="controls">
-        <input name="cmd" id="cmd" class="span12"  placeholder="Type your command (or 'help')" />
+        <input name="cmd" id="cmd" class="input-block-level span12"  placeholder="Type your command (or 'help')" />
        </div>
                           </div>
 </div>
