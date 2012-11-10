@@ -1,5 +1,5 @@
 /**
- * Echo Bot - the XMPP Hello World
+ * XMPP bot integration - experiments
  *
  * In this script we do a number of experiments.
  * - run the echo bot.
