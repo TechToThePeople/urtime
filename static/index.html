@@ -7,15 +7,46 @@
     <link href="/inspiritas-bootstrap/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/inspiritas-bootstrap/inspiritas.css" rel="stylesheet" type="text/css" />
 <script>
-var user="xavier";
+var user= null;
+//var user="xavier";
+
+// for knockout, everyone can authenticate. If the user doesn't exist, it creates one. Security first.
+var authenticate = function (name) {
+  user = name;
+  $('.name').html(user);
+  $('.auth').fadeIn("slow");
+  $("#login").slideUp("slow");
+  $(".authenticated").css("opacity","1");
+  $('#cmd').focus();
+  
+};
+
 jQuery(function($){
+  if (user == null) {
+    $('.auth').hide();
+    $(".authenticated").css("opacity","0.2");
+    $('#signin-name').focus();
+  } else {
+    authenticate(user);    
+  }
+
+  $("#signin").submit(function(){
+    var user=$("#signin-name").val();
+    if (user == "")
+      return false;
+    authenticate(user);   
+    return false; 
+  });
+
+
+
   $("#bot").submit(function(){
     console.log($("#cmd").val());
     $.ajax({
       url: "/"+user+"/do/"+$("#cmd").val(),
       type: "post",
       success: function(data) {
-        $('#result').html(data);
+        $('#result').append("<div class='alert alert-success'>"+data+"</div>");
         console.log('Load was performed.');
       },
     });
@@ -59,28 +90,59 @@ jQuery(function($){
         </div>
         <div class="span9" id="content-wrapper">
             <div id="content">
+<section id="login">
 
-               <section id="bot">
+                  <div class="row-fluid">
+                    <div class="span6 well">
+      <form class="form-signin" id="signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <input type="text" id="signin-name" class="input-block-level" title="for the nerds:that's your xmpp account" placeholder="chat address (email address on gmail)">
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+      </form>
+</div>
+<div class="span6 alert alert-info">
+<a class="close">x</a>
+<p>You can give any address (even fake), but if you want the full experience of chating with the bot, you need to provide one that offers chat, like gmail.
+</p>
+<p>
+We will not resell your contact details nor spam you in any way, shape or form.
+</p>
+<p>
+<b>You can stop the test at any time by blocking the bot from your chat client</b>
+</p>
+</div>
+</div>
+</section>
+
+               <section id="bot" class="authenticated">
                   <div class="sub-header">
                     <h1>Bot</h1>
                   </div>
 
-                  <div class="row-fluid">
-                    <div class="span12">
-
-
     <form id="bot" class="form-horizontal">
+                  <div class="row-fluid well">
+                    <div class="span10">
+
+
                           <div class="control-group">
       <label class="control-label" for="cmd">Command</label>
        <div class="controls">
-        <input name="cmd" id="cmd" title="Type your command (or help)" />
+        <input name="cmd" id="cmd" class="span12"  placeholder="Type your command (or 'help')" />
        </div>
                           </div>
-    </form>
 </div>
+                    <div class="span2">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                      </div>
+
+</div>
+    </form>
 </section>
 
-              <section id="miscellaneous">
+              <section id="answers" class="authenticated">
                 <div class="sub-header">
                   <h2>Result</h2>
                 </div>
@@ -92,7 +154,7 @@ jQuery(function($){
               </section>
   
 
-              <section id="miscellaneous">
+              <section id="miscellaneous" style="display:none;">
                 <div class="sub-header">
                   <h2>Alerts</h2>
                 </div>
@@ -134,6 +196,7 @@ jQuery(function($){
             </div>
         </div>
     </div>
+
 </div><!-- /container -->
 
   </body>

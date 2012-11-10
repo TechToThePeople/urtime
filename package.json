@@ -1,6 +1,6 @@
 {
   "name": "nko3-tech-to-the-people",
-  "version": "0.0.0",
+  "version": "0.0.0-1",
   "description": "Tech To The People",
   "main": "server.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "underscore": ">=1.4.2",
     "stn": ">=0.0.8",
     "restify": ">=1.4.4",
-    "filed":">=0.0.7",
+    "filed": ">=0.0.7",
     "mime": ">=1.2.7"
   },
   "engines": {
