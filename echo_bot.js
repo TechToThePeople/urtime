@@ -9,6 +9,7 @@
 var sys = require('sys')
   , xmpp = require('node-xmpp')
   , conf = require('./config.js')
+  , IqEngine = require('./lib/iq-engine.js').IqEngine
 
 // Build a client.
 var cl = new xmpp.Client({
@@ -22,16 +23,17 @@ if (true) {
   var emitt = cl.emit;
   cl.emit = function() {
     var args = arguments
-    console.log('cl.emit', args)
+    // console.log('cl.emit', args)
     return emitt.apply(this, args)
   }
 }
 
 // IqEngine can ask for the roster. Unfortunately, this does not really work.
-var iqEngine = new (require('./lib/iq-engine.js')).IqEngine(cl)
-console.log(iqEngine)
+var iqEngine = new IqEngine(cl)
 // Commented out, because it crashes the bot.
-// iqEngine.getRoster(function(contacts){console.log(contacts)})
+setTimeout(function(){
+  iqEngine.getRoster(function(contacts){console.log(contacts)})
+}, 400)
 
 cl.on('online',
       function() {
@@ -65,5 +67,6 @@ var requestElement = new xmpp.Element('iq', {type: 'get', id: 'abcdefgj', from: 
 var queryElement = new xmpp.Element('query', {xmlns: 'jabber:iq:roster'})
 requestElement.cnode(queryElement)
 // Commented out, because it crashes the bot.
-cl.send(requestElement)
-
+setTimeout(function(){
+  // cl.send(requestElement)
+}, 400)
