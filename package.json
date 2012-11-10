@@ -11,7 +11,9 @@
     "url": "git@github.com:nko3/tech-to-the-people.git"
   },
   "dependencies": {
-    "node-xmpp": "0.3.x"
+    "node-xmpp": "0.3.x",
+    "underscore": ">=1.4.2",
+    "stn": ">=0.0.8"
   },
   "engines": {
     "node": "0.8.x"
