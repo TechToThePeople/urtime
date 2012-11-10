@@ -77,20 +77,23 @@ server.use(restify.throttle({
 server.use(restify.bodyParser({ }));
 
 server.post('/user/connect', function(req, res, next) {
-  if(typeof users[req.params.user] !=  "undefined") {
-    res.contentType = 'application/json';
-    res.send(req.params.user + ", you are already connected (from the chat or another browser)");
+  res.contentType = 'application/json';
+  if (User.connect(users, req.params.user, bot.name)) {
+    res.send("new user " + req.params.user);
+    console.log(users);
     return next();
-  };
-  res.send("new user "+req.params.user);
-  users[req.params.user] = new User(req.params.user);
+  }
+  res.contentType = 'application/json';
+  res.send(req.params.user + ", you are already connected (from the chat or another browser)");
   return next();
 });
 
 server.post('/:userhash/do', function(req, res, next) {
+  if (! User.exists(users,req.params.user)) // should never happen, but better safe than sorry
+    User.connect(users,req.params.user,bot.name);
+
   var result = bot.run (req.params.cmd,users[req.params.user]);
   res.send(result);
-  //res.send("command "+req.params.cmd +" to run for "+req.params.user);
   return next();
 });
 
