@@ -5,6 +5,10 @@ var path = require('path');
 var filed = require('filed');
 var mime = require('mime');
 
+var user=require ('./lib/user.js');
+var bot=require ('./lib/bot.js').bot ({'name':'web'});
+
+
 var users = {};
 
 
@@ -13,8 +17,6 @@ var users = {};
 function serve(req, res, next) {
     var fname = path.normalize('./static' + req.path);
     var log = req.log;
-
-    console.log('GET %s maps to %s', req.path, fname);
 
     /* JSSTYLED */
     if (!/^static\/?.*/.test(fname))
@@ -57,7 +59,6 @@ var server = restify.createServer({
   'image/png': function formatPNG(req, res, body) {
       return body;
   }
-
 });
 
 server.use(restify.throttle({
@@ -71,24 +72,29 @@ server.use(restify.throttle({
     }
   }
 }));
-server.use(restify.bodyParser({ 
-}));
 
-server.get('/:user/connect', function(req, res, next) {
-res.contentType = 'application/json';
-  res.send("new user "+req.params.user);
+server.use(restify.bodyParser({ }));
+
+server.post('/user/connect', function(req, res, next) {
+  if(typeof users[req.params.user] !=  "undefined") {
+    res.contentType = 'application/json';
+    res.send(req.params.user + ", you are already connected (from the chat or another browser)");
     return next();
+  };
+  res.send("new user "+req.params.user);
+  users[req.params.user] = (new user.new(req.params.user));
+  return next();
 });
 
 server.post('/:userhash/do', function(req, res, next) {
-console.log(req);
-console.log(req.params);
-  res.send("command "+req.params.cmd +" to run for "+req.params.user);
+  var result = bot.run (req.params.cmd,users[req.params.user]);
+  res.send(result);
+  //res.send("command "+req.params.cmd +" to run for "+req.params.user);
   return next();
 });
 
 server.get('/:user/task', function(req, res, next) {
-  res.send("task for "+req.params.user);
+  res.send("tasks for "+req.params.user);
     return next();
 });
 
@@ -110,15 +116,6 @@ server.get(/\/inspiritas-bootstrap\/\S+/, function (req, res, next) {
 server.get(/\/public\/\S+/, function (req, res, next) {
  return serve(req, res, next);
 });
-
-
-/*server.get(/^\/([a-zA-Z0-9_\.~-]+)\/(.*)/, function(req, res, next) {
-  console.log(req.params[0]);
-  console.log(req.params[1]);
-  res.send(200);
-  return next();
-});
-*/
 
 server.listen(8000);
 console.log('Server running at http://0.0.0.0:8000/');

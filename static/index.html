@@ -34,7 +34,15 @@ jQuery(function($){
     var user=$("#signin-name").val();
     if (user == "")
       return false;
-    authenticate(user);   
+    $.ajax({
+      url: "/user/connect",
+      data:{user:user,bot:"web"},
+      type: "post",
+      success: function(data) {
+        authenticate(user);   
+        $('#result').append("<div class='alert alert-success'>"+data+"</div>");
+      },
+    });
     return false; 
   });
 
