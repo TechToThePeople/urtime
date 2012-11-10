@@ -10,6 +10,10 @@ var sys = require('sys')
   , xmpp = require('node-xmpp')
   , conf = require('./config.js')
   , IqEngine = require('./lib/iq-engine.js').IqEngine
+  , InviteApprover = require('./lib/invite.js').InviteApprover
+  , ConversationGarden = require('./lib/xmpp-conversation-garden.js').ConversationGarden
+  , EchobotManager = require('./lib/bot/echobot.js').BotManager
+  , TimebotManager = require('./lib/bot/timebot.js').BotManager
 
 // Build a client.
 var cl = new xmpp.Client({
@@ -19,7 +23,8 @@ var cl = new xmpp.Client({
   port: conf.port
 });
 
-if (true) {
+// Catch and print all events from the xmpp client.
+if (false) {
   var emitt = cl.emit;
   cl.emit = function() {
     var args = arguments
@@ -28,45 +33,29 @@ if (true) {
   }
 }
 
-// IqEngine can ask for the roster. Unfortunately, this does not really work.
-var iqEngine = new IqEngine(cl)
-// Commented out, because it crashes the bot.
-setTimeout(function(){
+// Send our online presence.
+// This is necessary to make the bots work.
+function onOnline() {
+
+  var element = new xmpp.Element('presence', { })
+    .c('show').t('chat').up()
+    .c('status').t('Happily echoing your <message/> stanzas')
+  cl.send(element)
+
+  // IqEngine can ask for the roster.
+  // (we don't actually do that, but...)
+  var iqEngine = new IqEngine(cl)
   iqEngine.getRoster(function(contacts){console.log(contacts)})
-}, 400)
+}
 
-cl.on('online',
-      function() {
-      cl.send(new xmpp.Element('presence', { }).
-          c('show').t('chat').up().
-          c('status').t('Happily echoing your <message/> stanzas')
-         );
-      });
-cl.on('stanza',
-      function(stanza) {
-      if (stanza.is('message') &&
-          // Important: never reply to errors!
-          stanza.attrs.type !== 'error') {
+cl.on('online', onOnline)
 
-          // Swap addresses...
-          stanza.attrs.to = stanza.attrs.from;
-          delete stanza.attrs.from;
-          // and send back.
-          cl.send(stanza);
-      }
-      });
-cl.on('error',
-      function(e) {
-      sys.puts(e);
-      });
+// var inviteApprover = new InviteApprover(cl)
 
-// Build an iq stanza that we want to send, just to see if it works.
-// This is the small version, without any response callback. We only want to see
-// if the sending breaks anything.
-var requestElement = new xmpp.Element('iq', {type: 'get', id: 'abcdefgj', from: 'civibot@dqxtech.net'})
-var queryElement = new xmpp.Element('query', {xmlns: 'jabber:iq:roster'})
-requestElement.cnode(queryElement)
-// Commented out, because it crashes the bot.
-setTimeout(function(){
-  // cl.send(requestElement)
-}, 400)
+// Set up the conversation garden, to manage bots and contacts.
+var convGarden = new ConversationGarden(cl)
+convGarden.observeConversations(new EchobotManager())
+convGarden.observeConversations(new TimebotManager({}))
+
+
+
