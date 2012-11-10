@@ -1,5 +1,8 @@
 <html>
   <head>
+<link rel="apple-touch-icon" href="/inspiritas-bootstrap/images/apple-touch-icon.png" />
+<link rel="shortcut icon" href="/inspiritas-bootstrap/images/favicon.ico" />
+
     <title>HAL my time, the friendly bot that track your time</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="/inspiritas-bootstrap/bootstrap/js/bootstrap.min.js"></script>
@@ -21,17 +24,35 @@ var authenticate = function (name) {
   
 };
 
+var logout = function () {
+  $("#login").slideDown("slow");
+  $('.auth').hide();
+  $(".authenticated").css("opacity","0.2");
+  $('#signin-name').focus();
+  eraseCookie("username");
+  user = null;
+}
+
 jQuery(function($){
+
+  user = readCookie("username");
   if (user == null) {
-    $('.auth').hide();
-    $(".authenticated").css("opacity","0.2");
-    $('#signin-name').focus();
+    logout();
   } else {
     authenticate(user);    
   }
   $(".alternate").hide();
   $("section#log").slideDown("slow");
 
+  $("#logout").click(function() { logout();return false; });
+
+  $('.brand').hover(function(){
+    $('.brand img').animate ({height:200,width:200});   
+  },function(){
+    $('.brand img').animate ({height:32,width:32});   
+  }).click(function(){
+    $('#result').prepend("<div id='hal9000' class='alert alert-block'><a class='close'>x</a>I'm sorry, Dave. I'm afraid I can't do that. <br/>This mission is too important for me to allow you to jeopardize it.<br/><iframe src='http://nodeknockout.com/iframe/tech-to-the-people' frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe></div>");
+  });
   $("aside a").click(function() {
     var section = this.id.slice(3); // go-{section}
     $("aside li").removeClass("selected");
@@ -51,6 +72,11 @@ jQuery(function($){
       type: "post",
       success: function(data) {
         authenticate(user);   
+        if ($("#remember-me").attr("checked"))
+          console.log("remember");
+        else
+          console.log("do not remember");
+        createCookie("username",user,7)  
         $('#result').append("<div class='alert alert-success'>"+data+"</div>");
       },
     });
@@ -61,18 +87,46 @@ jQuery(function($){
 
   $("#bot").submit(function(){
     var uniq = 'reply' + (new Date()).getTime();
-    $('#result').prepend("<div id='"+uniq+"' class='alert alert-info'>"+$("#cmd").val()+"</div>");
+    $('#result').prepend("<div id='"+uniq+"' class='alert alert-info'><a class='close'>x</a>"
+      +$("#cmd").val()+"</div>");
     $.ajax({
       url: "/user/do",
       data:{user:user,cmd:$("#cmd").val()},
       type: "post",
       success: function(data) {
         $('#'+uniq).append("<div class='alert alert-success'>"+data+"</div>");
+        $("#cmd").val("");
       },
     });
     return false;
   });
 });
+
+function createCookie(name,value,days) {
+if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+}
+else var expires = "";
+document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+var nameEQ = name + "=";
+var ca = document.cookie.split(';');
+for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+}
+return null;
+}
+
+function eraseCookie(name) {
+  createCookie(name,"",-1);
+}
+
 </script>
   </head>
   <body>
@@ -85,16 +139,17 @@ jQuery(function($){
         <span class="icon-bar"></span>
       </a>
 
-      <a class="brand" href="#">HAL my time</a>
+      <div class="brand">
+<img src="/inspiritas-bootstrap/images/apple-touch-icon.png"/>MYT.im 9000
       <span class="tagline">the friendly bot that tracks your time</span>
+</div>
 
       <div class="nav-collapse collapse" id="main-menu">
         <div class="auth pull-right">
             <!--img class="avatar" src="images/littke.png"-->
             <span class="name">Tech To The People</span><br/>
             <span class="links">
-                <a href="#">Settings</a>
-                <a href="#">Logout</a>
+                <a id="logout" href="">Logout</a>
             </span>
         </div>
       </div>
@@ -137,7 +192,7 @@ jQuery(function($){
         <h2 class="form-signin-heading">Please sign in</h2>
         <input type="text" id="signin-name" class="input-block-level" title="for the nerds:that's your xmpp account" placeholder="chat address (email address on gmail)">
         <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
+          <input type="checkbox" id="remember-me"> Remember me
         </label>
         <button class="btn btn-large btn-primary" type="submit">Sign in</button>
       </form>
