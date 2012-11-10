@@ -4246,7 +4246,14 @@ input[type="submit"].btn.btn-mini {
   font-weight: 200;
   color: #777777;
   text-shadow: 0 1px 0 #ffffff;
+  cursor:hand;
 }
+.navbar .brand img {
+  width:32px;
+  height:32px;
+  padding-right:10px;
+}
+
 .navbar .brand:hover {
   text-decoration: none;
 }
@@ -7512,11 +7519,9 @@ body {
   text-shadow: 0 1px 1px #000000;
 }
 .navbar .tagline {
-  float: left;
-  line-height: 61px;
   color: #999999;
   font-weight: italic;
-  font-size: 11px;
+  font-size: 13px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
 }
 .navbar .auth {

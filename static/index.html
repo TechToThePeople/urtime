@@ -46,6 +46,13 @@ jQuery(function($){
 
   $("#logout").click(function() { logout();return false; });
 
+  $('.brand').hover(function(){
+    $('.brand img').animate ({height:200,width:200});   
+  },function(){
+    $('.brand img').animate ({height:32,width:32});   
+  }).click(function(){
+    $('#result').prepend("<div id='hal9000' class='alert alert-block'><a class='close'>x</a>I'm sorry, Dave. I'm afraid I can't do that. <br/>This mission is too important for me to allow you to jeopardize it.<br/><iframe src='http://nodeknockout.com/iframe/tech-to-the-people' frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe></div>");
+  });
   $("aside a").click(function() {
     var section = this.id.slice(3); // go-{section}
     $("aside li").removeClass("selected");
@@ -132,10 +139,10 @@ function eraseCookie(name) {
         <span class="icon-bar"></span>
       </a>
 
-      <a class="brand" href="#">
-<img src="/inspiritas-bootstrap/images/apple-touch-icon.png" style="height:32ppxx;weight:32px"/>
-HAL my time</a>
+      <div class="brand">
+<img src="/inspiritas-bootstrap/images/apple-touch-icon.png"/>MYT.im 9000
       <span class="tagline">the friendly bot that tracks your time</span>
+</div>
 
       <div class="nav-collapse collapse" id="main-menu">
         <div class="auth pull-right">
