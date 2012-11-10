@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>HAL my time, the friendly bot that track your time</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script>
+var user="xavier";
+jQuery(function($){
+  $("#bot").submit(function(){
+    console.log($("#cmd").val());
+    $.ajax({
+      url: "/"+user+"/do/"+$("#cmd").val(),
+      method: "post",
+      success: function(data) {
+        $('#result').html(data);
+        console.log('Load was performed.');
+      },
+    });
+    return false;
+  });
+});
+</script>
+  </head>
+  <body>
+    <form id="bot">
+      <label>Command</label><input id="cmd" title="Type your command (or help)" />
+    </form>
+    <div id="result">
+    </div>
+  </body>
+</html>
