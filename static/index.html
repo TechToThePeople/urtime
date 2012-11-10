@@ -52,6 +52,7 @@ jQuery(function($){
     $('.brand img').animate ({height:32,width:32});   
   }).click(function(){
     $('#result').prepend("<div id='hal9000' class='alert alert-block'><a class='close'>x</a>I'm sorry, Dave. I'm afraid I can't do that. <br/>This mission is too important for me to allow you to jeopardize it.<br/><iframe src='http://nodeknockout.com/iframe/tech-to-the-people' frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe></div>");
+    return false;
   });
   $("aside a").click(function() {
     var section = this.id.slice(3); // go-{section}
