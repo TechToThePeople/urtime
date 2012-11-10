@@ -45,7 +45,7 @@ function onOnline() {
   // IqEngine can ask for the roster.
   // (we don't actually do that, but...)
   var iqEngine = new IqEngine(cl)
-  iqEngine.getRoster(function(contacts){console.log(contacts)})
+  // iqEngine.getRoster(function(contacts){console.log(contacts)})
 }
 
 cl.on('online', onOnline)
