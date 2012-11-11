@@ -101,6 +101,10 @@ jQuery(function($){
       url: "/user/do",
       data:{user:user,cmd:$("#cmd").val()},
       type: "post",
+      error: function(xhr,text){
+        if (xhr.responseText) { text = xhr.responseText;}
+        $('#'+uniq).append("<div class='alert alert-error'>"+text+"</div>");
+      },
       success: function(data) {
         $('#'+uniq).append("<div class='alert alert-success'>"+data+"</div>");
         $("#cmd").val("");

@@ -1,10 +1,9 @@
 
 
 function addtask(msg, user) {
-  var m = msg.match(/^addtask (.*)$/)
-  if (m) {
-    var taskList = user.getTaskList()
-      , task = m[1]
+  var task = this.param(msg);
+  if (task) {
+    var taskList = user.getTaskList();
     if (taskList.taskExists(task)) {
       return "The task: '" + task + "' already exists."
     }
@@ -16,9 +15,8 @@ function addtask(msg, user) {
     }
   }
   else {
-    return "Syntax: 'addtask <task name>'"
+    return "Syntax: 'addtask {task name}'"
   }
 }
 
-module.exports = function(bot) {return {run: addtask}}
-
+module.exports = function(bot) {return {name:"add task",run: addtask}}

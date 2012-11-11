@@ -8,7 +8,8 @@ var mime = require('mime');
 var User = require('./lib/user.js').User;
 var Bot = require ('./lib/bot.js').Bot;
 
-var bot = new Bot({'name':'web'})
+var bot = new Bot({'name':'web',
+});
 
 var users = {};
 
@@ -34,7 +35,7 @@ function serve(req, res, next) {
 }
 
 var server = restify.createServer({
-  name: 'HAL my time',
+  name: 'HTTP',
   'text/html': function formatHTML(req, res, body) {
       if (typeof (body) === 'string')
           return body;
@@ -91,10 +92,27 @@ server.post('/:userhash/do', function(req, res, next) {
   if (! User.exists(users,req.params.user)) // should never happen, but better safe than sorry
     User.connect(users,req.params.user,bot.name);
 
-  var result = bot.run (req.params.cmd,users[req.params.user]);
-  var resultBr = result.replace('\n', '<br/>')
-  res.send(resultBr);
-  return next();
+  var result = bot.run (req.params.cmd,users[req.params.user]
+  ,function (type,data){
+    if (type == "error") {  
+      res.send(500,data);
+      return;
+    }
+    if (typeof data == "object") {
+      res.contentType = 'json';
+      res.write(JSON.stringify(data));
+    } else {
+      res.write(data);
+    }
+    if (type != "partial") {
+      res.end();
+    } 
+  });
+  if (result) {
+    var resultBr = result.replace('\n', '<br/>')
+    res.send(resultBr);
+    return next();
+  };
 });
 
 server.get('/:user/task', function(req, res, next) {
