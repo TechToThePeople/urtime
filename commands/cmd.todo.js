@@ -4,7 +4,7 @@ function todo(msg, user, callback) {
   if (tasks.length) {
     var rows = []
     for (var i = 0; i < tasks.length; ++i) {
-      rows.push('\n' + (i+1) + '. ' + tasks[i])
+      rows.push('\n' + i + '. ' + tasks[i])
     }
     callback ("success",{
       text: "On your todo: "+rows.join(''),

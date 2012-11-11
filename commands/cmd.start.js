@@ -12,6 +12,14 @@ function run (msg, user) {
       comment = mm[2]
       commentMsg = "\nNote: '" + comment + "'"
     }
+    if (!isNaN(task)) {
+      var taskId = 1 * task
+      task = taskList.taskById(taskId)
+      if (!task) {
+        return "There is no task with id " + taskId + ".\n" +
+          "Use 'todo' to show existing tasks, or 'add task' to create new ones."
+      }
+    }
     if (taskList.taskExists(task)) {
       user.start(task, comment)
       return "start task: '" + task + "'" + commentMsg;
