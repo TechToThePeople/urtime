@@ -75,7 +75,10 @@ server.use(restify.bodyParser({ }));
 
 server.post('/user/connect', function(req, res, next) {
   res.contentType = 'application/json';
-  if (User.connect(req.params.user, bot.name)) {
+  var connected = User.connect(req.params.user, function(greeting){
+    // TODO: Send a greeting
+  })
+  if (connected) {
     res.send("new user " + req.params.user);
     return next();
   }
