@@ -92,7 +92,8 @@ server.post('/:userhash/do', function(req, res, next) {
     User.connect(users,req.params.user,bot.name);
 
   var result = bot.run (req.params.cmd,users[req.params.user]);
-  res.send(result);
+  var resultBr = result.replace('\n', '<br/>')
+  res.send(resultBr);
   return next();
 });
 
