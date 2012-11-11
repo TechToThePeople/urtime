@@ -80,7 +80,6 @@ server.post('/user/connect', function(req, res, next) {
   res.contentType = 'application/json';
   if (User.connect(users, req.params.user, bot.name)) {
     res.send("new user " + req.params.user);
-    console.log(users);
     return next();
   }
   res.contentType = 'application/json';
