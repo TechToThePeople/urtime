@@ -40,6 +40,7 @@
 // for knockout, everyone can authenticate. If the user doesn't exist, it creates one. Security first.
 var authenticate = function (name) {
   user = name;
+  socket.emit('connect', {user:user});
   $('.name').html(user);
   $('.auth').fadeIn("slow");
   $("#login").slideUp("slow");
@@ -81,6 +82,18 @@ jQuery(function($){
   });
 
   $(document).on("click","a.close",function(event){$(this).parent().fadeOut();});
+
+  $('section#timesheet').on("switch",function(){
+    $.post("/bot/do",{user:user,cmd:"timesheet"},function(data){
+      var tpl= '<table class="table table-striped full-section table-hover"><thead><tr><th>number</th><th>Task</th><th>Action</th></tr></thead><tbody>'; // I so much should have used mustache
+      data = $.parseJSON(data);
+      $.each(data.tasks, function(index, value) { 
+        tpl= tpl+"<tr id='task_"+index+"'><td>"+index+"</td><td>"+value+"</td><td><a class='btn btn-primary btn-small'>Start work</a></td></tr>";
+      });
+      tpl= tpl + '</tbody></table>';
+      $("#todo .content").html(tpl);
+    });
+  });
 
   $('section#todo').on("switch",function(){
     $.post("/bot/do",{user:user,cmd:"todo"},function(data){
@@ -295,7 +308,7 @@ We will not resell your contact details nor spam you in any way, shape or form.
                 <div class="row-fluid">
                     <div class="span12">
 <div id='tip-todo' class='alert alert-block'>
-You can as well type the command <span class="command" data-cmd="todo">todo</span>.
+You can as well type the command <span class="command" data-cmd="todo">todo</span>. If you want to add a new task, type <span class="command" data-cmd="add task Open the pod bay doors">add task Open the pod bay doors</span>.
 </div>
 <div class="content"></div>
                     </div>
