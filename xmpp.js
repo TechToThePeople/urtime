@@ -10,14 +10,22 @@ var sys = require('sys')
   , InviteApprover = require('./lib/invite.js').InviteApprover
   , TimebotManager = require('./lib/bot/timebot.js').BotManager
 
-
-// Build a client based on our config.
-var cl = new xmpp.Client({
+var xmppOptions = {
   jid: conf.user,
   password: conf.password,
   host: conf.server,
   port: conf.port
-});
+}
+
+console.log('xmppOptions: ', xmppOptions);
+
+// Try to fix..
+xmppOptions.jid = new xmpp.JID(xmppOptions.jid)
+
+console.log('xmppOptions.jid: ', xmppOptions.jid)
+
+// Build a client based on our config.
+var cl = new xmpp.Client(xmppOptions);
 
 // Add the invite approver
 var inviteApprover = new InviteApprover(cl)
