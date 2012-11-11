@@ -88,14 +88,14 @@ server.post('/:userhash/do', function(req, res, next) {
   if (! User.exists(req.params.user)) // should never happen, but better safe than sorry
     User.connect(req.params.user,bot.name);
 
-  var result = bot.run (req.params.cmd,users[req.params.user]
+  var result = bot.run (req.params.cmd,User.users[req.params.user]
   ,function (type,data){
     if (type == "error") {  
       res.send(500,data);
       return;
     }
     if (typeof data == "object") {
-      res.contentType = 'json';
+      res.contentType = 'application/json';
       res.write(JSON.stringify(data));
     } else {
       res.write(data);
@@ -147,10 +147,8 @@ io.sockets.on('connection', function (socket) {
 console.log(req);
     if (! User.exists(req.user)) // should never happen, but better safe than sorry
       User.connect(req.user,bot.name);
-console.log (User.users);
     var result = bot.run (req.cmd,User.users[req.user]
       ,function (type,data){
-console.log (typeof data);
       if (typeof data == "string") {
         var t= data, data = {}; 
         data.text = t;
