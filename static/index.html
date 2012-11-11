@@ -15,15 +15,19 @@
 <script>
   var user= null;
 
-// counter at work
-  var start = moment();
-
-  setInterval(function(){
-    $("#counter").html(moment(start).fromNow());
-  },1000);
-
-  //var socket = io.connect('http://localhost');
   var socket = io.connect("/");
+
+  socket.on('work', function (data) {
+    // counter at work
+    if (data.action == "start") {
+      var start = moment();
+      $("#bot_title").html('The bot <span>assigned you to a task </span> <span id="counter">a second ago</span>');
+      setInterval(function(){
+        $("#counter").html(moment(start).fromNow());
+      },1000);
+    }
+  });
+
   socket.on('bot', function (data) {
     var id = data.id || "result";
     var reply = data.text || data;
@@ -37,7 +41,6 @@
       $("#cmd").val("");
     } else
       $('#result').prepend("<div class='alert alert-"+type+"'><a class='close'>x</a>"+reply+"</div>");
-    console.log(data);
   });
 
 
@@ -292,7 +295,7 @@ We will not resell your contact details nor spam you in any way, shape or form.
 
                <section id="bot" class="authenticated">
                   <div class="sub-header">
-                    <h1>The bot <span>assigned you to a task </span> <span id="counter">a second ago</span></h1>
+                    <h1 id="bot_title">I'm the URT 9000 bot. I track time.</h1>
 
     <form id="bot" class="form-horizontal">
                   <div class="row-fluid well">
