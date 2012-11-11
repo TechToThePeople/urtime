@@ -71,9 +71,17 @@ jQuery(function($){
     return false;
   });
 
+  $(document).on("click","a.close",function(event){$(this).parent().fadeOut();});
+
   $('section#todo').on("switch",function(){
     $.post("/bot/do",{user:user,cmd:"todo"},function(data){
-      $("#todo .content").html(data);
+      var tpl= '<table class="table table-striped full-section table-hover"><thead><tr><th>number</th><th>Task</th><th>Action</th></tr></thead><tbody>'; // I so much should have used mustache
+      data = $.parseJSON(data);
+      $.each(data.tasks, function(index, value) { 
+        tpl= tpl+"<tr id='task_"+index+"'><td>"+index+"</td><td>"+value+"</td><td><a class='btn btn-primary btn-small'>Punch in</a></td></tr>";
+      });
+      tpl= tpl + '</tbody></table>';
+      $("#todo .content").html(tpl);
     });
   });
 
