@@ -1,10 +1,10 @@
 {
   "name": "nko3-tech-to-the-people",
-  "version": "0.1.0-3",
+  "version": "0.1.1",
   "description": "Tech To The People",
   "main": "server.js",
   "scripts": {
-    "start": "node http.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
