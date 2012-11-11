@@ -18,7 +18,8 @@
     "restify": ">=1.4.4",
     "filed": ">=0.0.7",
     "mime": ">=1.2.7",
-    "socket.io": ">0.9.1"
+    "socket.io": ">0.9.1",
+    "moment": "1.7.x"
   },
   "engines": {
     "node": "0.8.x"

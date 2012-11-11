@@ -1,8 +1,12 @@
 
+var momentJs = require('moment')
+
+
 function punchout(msg, user) {
   var interval = user.stop()
   if (interval) {
-    return "Time tracking stopped. Duration: " + interval.duration
+    var durationString = momentJs.duration(interval.duration).humanize()
+    return "Time tracking stopped. Duration: " + durationString
   }
   else {
     return "No task to punchout from."
