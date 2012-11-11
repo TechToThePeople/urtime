@@ -27,15 +27,16 @@
   socket.on('bot', function (data) {
     var id = data.id || "result";
     var reply = data.text || data;
+    var type = data.type || "success";
     if (data.id) {
       if ($('#'+id).length >0) {
-        $('#'+id).append("<div class='alert alert-success'>"+reply+"</div>");
+        $('#'+id).append("<div class='alert alert-"+type+"'>"+reply+"</div>");
       } else {
-        $('#result').prepend("<div class='alert alert-success' id="+id+"><a class='close'>x</a>"+reply+"</div>");
+        $('#result').prepend("<div class='alert alert-"+type+"' id="+id+"><a class='close'>x</a>"+reply+"</div>");
       }
       $("#cmd").val("");
     } else
-      $('#result').prepend("<div class='alert alert-success'><a class='close'>x</a>"+reply+"</div>");
+      $('#result').prepend("<div class='alert alert-"+type+"'><a class='close'>x</a>"+reply+"</div>");
     console.log(data);
   });
 
@@ -302,6 +303,7 @@ We will not resell your contact details nor spam you in any way, shape or form.
                 <div class="row-fluid">
                     <div class="span12" id="result">
                     </div>
+<iframe src='http://nodeknockout.com/iframe/tech-to-the-people' frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe>
                 </div>
               </section>
   
