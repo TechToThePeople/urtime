@@ -1,6 +1,6 @@
 {
   "name": "nko3-tech-to-the-people",
-  "version": "0.7.1",
+  "version": "1.0.0",
   "description": "Tech To The People",
   "main": "server.js",
   "scripts": {
@@ -29,5 +29,5 @@
   "domains": [
     "urt.im",
     "www.urt.im"
-  ],
+  ]
 }

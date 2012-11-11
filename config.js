@@ -5,7 +5,6 @@ if (process.env.NODE_ENV ==='production') {
     server: 'talk.google.com',
     port: '5222' 
   };
-console.log(module.exports);
 } else {
   var cjson = require('cjson');
   var conf = cjson.load('./conf/config.json');

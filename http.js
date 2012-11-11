@@ -77,6 +77,7 @@ server.use(restify.bodyParser({ }));
 server.post('/user/connect', function(req, res, next) {
   res.contentType = 'application/json';
   var connected = User.connect(req.params.user, function(greeting){
+console.log ("connection");
     // TODO: Send a greeting
   })
   if (connected) {
@@ -152,27 +153,40 @@ var io = require('socket.io').listen(server.server,{
 });
 
 io.sockets.on('connection', function (socket) {
-/*
-  socket.emit ('bot', {text: "Affirmative, Dave. I read you."});
-  _.delay(function(){
-    callback("partial","I've still got the greatest enthusiasm and confidence in the mission. And I want to help you. I have assigned you to the task 'procastination'");
-//          callback("partial","Just what do you think you're doing, Andreas? I'm afraid I have to assign you to a task. The task ");
-  }, 1500);
-  _.delay(function(){
-    callback("partial","Look Dave, I can see you're really upset about this. I honestly think you ought to use the command form above.<br>You can type 'add task take a stress pill, and think things'.<br/>");
-  }, 4000);
-  _.delay(function(){
-    callback("partial","Just what do you think you're doing, Dave?");
-  }, 10000);
 
-console.log(user);
-//user.firstname;
-*/
+  socket.on('connect', function (req) {
+    var uniq = 'reply' + (new Date()).getTime();
+      socket.emit ('bot', {type:"alert",text: "Affirmative, Dave. I read you.", id:uniq});      
+    if (! User.exists(req.user)) {
+      User.connect(req.user, function(greeting, user){
+  console.log(user);
+        _.delay(function(){
+           socket.emit ('bot', {id:uniq, text: "I've still got the greatest enthusiasm and confidence in the mission. And I want to help you, "+ user.firstname+".<br>I have assigned you to the task 'Procastination'."});
+         socket.emit ('work', {task:0, action:"start"});
+        }, 3000);
+
+        _.delay(function(){
+          socket.emit ('bot', {id:uniq, text: "Look "+user.firstname+", I can see you're really upset about this.<br>I honestly think you ought to use the command form above.<br>You can type <i>'add task take a stress pill, and think things'</i>.<br/> Or any other task. it just has to start by <i>add task </i>, so I know what to do"});
+        }, 15000);
+
+        _.delay(function(){
+          socket.emit ('bot', {id:uniq, type: "error",text: "Just what do you think you're doing, Dave?<br>If you have a gtalk/xmpp account "+user.firstname+", you should connect to me. <br>I'm <b>bot@urt.im</b> and I will gladly accept your invitation to chat"});
+        }, 42000);
+        _.delay(function(){
+          socket.emit ('bot', {id:uniq, text: user.firstname+", this conversation can serve no purpose anymore. Use the command form above, you can start by <i>'help'</i>. I will let you discover at your own pace."});
+        }, 55000);
+        _.delay(function(){
+          socket.emit ('bot', {id:uniq, type:"info", text: user.firstname+", If I haven't bothered you too much already, may I kindly request you to click on the 'vote' button under?"});
+        }, 63000);
+
+      });
+    };
+  });
 
   socket.on('command', function (req) {
     if (! User.exists(req.user)) // should never happen, but better safe than sorry
       User.connect(req.user, function(greeting, user){
-        socket.emit('bot', {text: greeting})
+//        socket.emit('bot', {text: greeting})
       });
     var result = bot.run (req.cmd,User.users[req.user]
       ,function (type,data){
