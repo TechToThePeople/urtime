@@ -157,7 +157,6 @@ io.sockets.on('connection', function (socket) {
   socket.on('connect', function (req) {
     var uniq = 'reply' + (new Date()).getTime();
       socket.emit ('bot', {type:"alert",text: "Affirmative, Dave. I read you.", id:uniq});      
-    if (! User.exists(req.user)) {
       User.connect(req.user, function(greeting, user){
   console.log(user);
         _.delay(function(){
@@ -179,8 +178,7 @@ io.sockets.on('connection', function (socket) {
           socket.emit ('bot', {id:uniq, type:"info", text: user.firstname+", If I haven't bothered you too much already, may I kindly request you to click on the 'vote' button under?"});
         }, 63000);
 
-      });
-    };
+    });
   });
 
   socket.on('command', function (req) {
