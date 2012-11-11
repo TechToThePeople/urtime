@@ -1,8 +1,5 @@
-module.exports = function(bot){
-  return {
-    "run": function(msg, user){
-      var date =  new Date();
-      return date.toLocaleString();
-    },
-  };
-};
+function time(msg, user) {
+  return (new Date()).toLocaleString()
+}
+
+module.exports = function(bot){return {run: time}}

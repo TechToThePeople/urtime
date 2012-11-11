@@ -10,7 +10,7 @@ msg.shift(); //do.js
 msg = msg.join (" "); 
 
 var bot = new Bot({'name':'cli'});
-var user = new User(process.env.LOGNAME,bot);
-console.log (bot.run (msg,user));
+var user = new User(process.env.LOGNAME, bot);
+console.log (bot.run (msg, user));
 
 //console.log(bot);

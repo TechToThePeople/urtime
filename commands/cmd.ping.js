@@ -1,5 +1,5 @@
-module.exports = function(bot){
-  return {
-    "run": function(msg, user){return "pong";},
-  };
-};
+function run(msg, user) {
+  return 'pong'
+}
+
+module.exports = function(bot){return {run: run}}
