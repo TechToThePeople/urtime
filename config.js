@@ -1,6 +1,9 @@
 if (process.env.NODE_ENV ==='production') {
   exports = {
-    user: process.env.XMPP_USER,
+    user: { 
+        user:process.env.XMPP_USER,
+        domain:process.env.XMPP_DOMAIN
+    },
     password: process.env.XMPP_PASSWORD,
     server: 'talk.google.com',
     port: '5222' 
