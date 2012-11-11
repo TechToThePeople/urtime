@@ -140,4 +140,34 @@ server.get(/\/public\/\S+/, function (req, res, next) {
 });
 
 server.listen(8000);
+
+var io = require('socket.io').listen(server.server,{
+  'log level':2
+});
+
+io.sockets.on('connection', function (socket) {
+  socket.emit('bot', { text: 'world' });
+  socket.on('command', function (req) {
+console.log(req);
+    if (! User.exists(users,req.user)) // should never happen, but better safe than sorry
+      User.connect(users,req.user,bot.name);
+
+    var result = bot.run (req.cmd,users[req.user]
+      ,function (type,data){
+console.log (typeof data);
+      if (typeof data == "string") {
+        var t= data, data = {}; 
+        data.text = t;
+      }
+      data.id = req.id;
+      data.type = type;
+      socket.emit('bot', data);
+      console.log(data);
+    });
+    if (result) {
+      var resultBr = result.replace('\n', '<br/>');
+      socket.emit('bot', {type:'success',id:req.id,text:resultBr});
+    };
+  });
+});
 console.log('Server running at http://0.0.0.0:8000/');
