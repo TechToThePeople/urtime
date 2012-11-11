@@ -11,7 +11,10 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io.connect('http://localhost');
+  var user= null;
+
+  //var socket = io.connect('http://localhost');
+  var socket = io.connect("/");
   socket.on('bot', function (data) {
     var id = data.id || "result";
     var reply = data.text || data;
@@ -22,10 +25,8 @@
       $('#result').prepend("<div class='alert alert-success'>"+reply+"</div>");
     console.log(data);
   });
-</script>
-<script>
-var user= null;
-//var user="xavier";
+
+
 
 // for knockout, everyone can authenticate. If the user doesn't exist, it creates one. Security first.
 var authenticate = function (name) {
