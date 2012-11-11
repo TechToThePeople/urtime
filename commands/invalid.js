@@ -1,5 +1,5 @@
 function run(msg, user) {
-  return user.name + "... I'm afraid I can't let you do that." +
+  return user.firstname + "... I'm afraid I can't let you do that." +
     " \nInvalid command '" + msg + "'"
 }
 
