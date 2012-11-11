@@ -4263,15 +4263,16 @@ font-size:15px;
 
 .navbar .brand b {
   font-weight:normal;
+  font-size:41px;
   position:relative;
-  top:-2px;
   left:4px;
+  margin-left:-7px;
 }
 
 .navbar .brand b:after {
   position:relative;
   left:-5px;
-  top:1px;
+  top:0px;
   content:    ".";
   font-size:  25px; 
   color:      #ccc;

@@ -147,7 +147,6 @@ var io = require('socket.io').listen(server.server,{
 io.sockets.on('connection', function (socket) {
   socket.emit('bot', { text: 'Affirmative, Dave. I read you.' });
   socket.on('command', function (req) {
-console.log(req);
     if (! User.exists(req.user)) // should never happen, but better safe than sorry
       User.connect(req.user,bot.name);
     var result = bot.run (req.cmd,User.users[req.user]
