@@ -1,6 +1,6 @@
 {
   "name": "nko3-tech-to-the-people",
-  "version": "0.2.0",
+  "version": "0.7.1",
   "description": "Tech To The People",
   "main": "server.js",
   "scripts": {
@@ -25,5 +25,9 @@
   "engines": {
     "node": "0.8.x"
   },
-  "subdomain": "tech-to-the-people.nko3"
+  "subdomain": "tech-to-the-people.nko3",
+  "domains": [
+    "urt.im",
+    "www.urt.im"
+  ],
 }
