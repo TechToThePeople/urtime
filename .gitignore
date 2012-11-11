@@ -6,3 +6,9 @@ timesheet
 static/inspiritas-bootstrap/*.less
 conf
 !conf/example.json
+
+# Exclude all data files, but include the README.md
+# to make sure those folders are created on git pull
+data
+!data/timesheet/README.md
+!data/task/README.md

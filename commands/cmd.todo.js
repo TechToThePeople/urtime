@@ -6,7 +6,7 @@ function todo(msg, user) {
     for (var i = 0; i < tasks.length; ++i) {
       rows.push('\n' + (i+1) + '. ' + tasks[i])
     }
-    return "Active tasks:" + rows.join('')
+    return "Active tasks for " + user.name + ":" + rows.join('')
   }
 }
 
