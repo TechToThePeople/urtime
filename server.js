@@ -11,10 +11,6 @@ var Bot = require ('./lib/bot.js').Bot;
 var bot = new Bot({'name':'web',
 });
 
-var users = {};
-
-
-
 //adapted from mcavage https://github.com/mcavage/node-restify/issues/101
 function serve(req, res, next) {
     var fname = path.normalize('./static' + req.path);
@@ -79,7 +75,7 @@ server.use(restify.bodyParser({ }));
 
 server.post('/user/connect', function(req, res, next) {
   res.contentType = 'application/json';
-  if (User.connect(users, req.params.user, bot.name)) {
+  if (User.connect(req.params.user, bot.name)) {
     res.send("new user " + req.params.user);
     return next();
   }
@@ -89,8 +85,8 @@ server.post('/user/connect', function(req, res, next) {
 });
 
 server.post('/:userhash/do', function(req, res, next) {
-  if (! User.exists(users,req.params.user)) // should never happen, but better safe than sorry
-    User.connect(users,req.params.user,bot.name);
+  if (! User.exists(req.params.user)) // should never happen, but better safe than sorry
+    User.connect(req.params.user,bot.name);
 
   var result = bot.run (req.params.cmd,users[req.params.user]
   ,function (type,data){
@@ -146,13 +142,13 @@ var io = require('socket.io').listen(server.server,{
 });
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('bot', { text: 'world' });
+  socket.emit('bot', { text: 'Affirmative, Dave. I read you.' });
   socket.on('command', function (req) {
 console.log(req);
-    if (! User.exists(users,req.user)) // should never happen, but better safe than sorry
-      User.connect(users,req.user,bot.name);
-
-    var result = bot.run (req.cmd,users[req.user]
+    if (! User.exists(req.user)) // should never happen, but better safe than sorry
+      User.connect(req.user,bot.name);
+console.log (User.users);
+    var result = bot.run (req.cmd,User.users[req.user]
       ,function (type,data){
 console.log (typeof data);
       if (typeof data == "string") {
