@@ -15,8 +15,8 @@ function addtask(msg, user) {
     }
   }
   else {
-    return "Syntax: 'addtask {task name}'"
+    return "Syntax: 'add task {task name}'"
   }
 }
 
-module.exports = function(bot) {return {name:"add task",run: addtask}}
+module.exports = function(bot) {return {name:"add task", run: addtask}}
