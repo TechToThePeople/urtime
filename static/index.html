@@ -29,7 +29,7 @@ var logout = function () {
   $('.auth').hide();
   $(".authenticated").css("opacity","0.2");
   $('#signin-name').focus();
-  eraseCookie("username");
+  createCookie("username","",-1);
   user = null;
 }
 
@@ -46,21 +46,28 @@ jQuery(function($){
 
   $("#logout").click(function() { logout();return false; });
 
+  $('.brand img').css("height",200).css("width",200).animate ({height:32,width:32},"slow");
   $('.brand').hover(function(){
-    $('.brand img').animate ({height:100,width:100});   
+    $('.brand img').clearQueue().animate ({height:100,width:100});   
   },function(){
-    $('.brand img').animate ({height:32,width:32});   
+    $('.brand img').clearQueue().animate ({height:32,width:32});   
   }).click(function(){
     $('#result').prepend("<div id='hal9000' class='alert alert-block'><a class='close'>x</a>I'm sorry, Dave. I'm afraid I can't do that. <br/>This mission is too important for me to allow you to jeopardize it.<br/><iframe src='http://nodeknockout.com/iframe/tech-to-the-people' frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe></div>");
     return false;
   });
+
+  $('section#todo').on("switch",function(){
+    $.post("/bot/do",{user:user,cmd:"todo"},function(data){
+      $("#todo .content").html(data);
+    });
+  });
+
   $("aside a").click(function() {
     var section = this.id.slice(3); // go-{section}
     $("aside li").removeClass("selected");
     $(".alternate").slideUp("slow");
-    $("section#"+section).slideDown("slow");
+    $("section#"+section).slideDown("slow").trigger({type:"switch",section:section});
     $(this).parent().addClass("selected");
-    console.log (this.id.slice(3));
     return false;
   });
   $("#signin").submit(function(){
@@ -104,28 +111,24 @@ jQuery(function($){
 });
 
 function createCookie(name,value,days) {
-if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
-}
-else var expires = "";
-document.cookie = name+"="+value+expires+"; path=/";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+  } else 
+    var expires = "";
+  document.cookie = name+"="+value+expires+"; path=/";
 }
 
 function readCookie(name) {
-var nameEQ = name + "=";
-var ca = document.cookie.split(';');
-for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-}
-return null;
-}
-
-function eraseCookie(name) {
-  createCookie(name,"",-1);
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+  return null;
 }
 
 </script>
@@ -141,7 +144,7 @@ function eraseCookie(name) {
       </a>
 
       <div class="brand">
-<img src="/inspiritas-bootstrap/images/apple-touch-icon.png" title="URT 9000" alt="URT.im 9000"/>Your time
+<img src="/inspiritas-bootstrap/images/apple-touch-icon.png" title="URT 9000" alt="URT.im 9000"/>UR <b>T</b>im<i>e</i>
       <span class="tagline">the friendly bot that tracks your time</span>
 </div>
 
@@ -252,6 +255,10 @@ We will not resell your contact details nor spam you in any way, shape or form.
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
+<div id='tip-todo' class='alert alert-block'>
+You can as well type the command <span class="command" data-cmd="todo">todo</span>.
+</div>
+<div class="content"></div>
                     </div>
                 </div>
 </section>
