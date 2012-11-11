@@ -4,6 +4,7 @@ var restify = require('restify');
 var path = require('path');
 var filed = require('filed');
 var mime = require('mime');
+var _ = require('underscore');
 
 var User = require('./lib/user.js').User;
 var Bot = require ('./lib/bot.js').Bot;
@@ -99,6 +100,9 @@ server.post('/:userhash/do', function(req, res, next) {
     }
     if (typeof data == "object") {
       res.contentType = 'application/json';
+      if (data.text) {
+        data.text = data.text.replace('\n', "<br/>\n")
+      }
       res.write(JSON.stringify(data));
     } else {
       res.write(data);
@@ -108,11 +112,14 @@ server.post('/:userhash/do', function(req, res, next) {
     } 
   });
   if (result) {
-    var resultBr = result.replace('\n', '<br/>')
+    var resultBr = result.replace('\n', "<br/>n")
     res.send(resultBr);
     return next();
   };
 });
+
+
+
 
 server.get('/:user/task', function(req, res, next) {
   res.send("tasks for "+req.params.user);
@@ -145,7 +152,23 @@ var io = require('socket.io').listen(server.server,{
 });
 
 io.sockets.on('connection', function (socket) {
-  // socket.emit('bot', { text: 'Affirmative, Dave. I read you.' });
+/*
+  socket.emit ('bot', {text: "Affirmative, Dave. I read you."});
+  _.delay(function(){
+    callback("partial","I've still got the greatest enthusiasm and confidence in the mission. And I want to help you. I have assigned you to the task 'procastination'");
+//          callback("partial","Just what do you think you're doing, Andreas? I'm afraid I have to assign you to a task. The task ");
+  }, 1500);
+  _.delay(function(){
+    callback("partial","Look Dave, I can see you're really upset about this. I honestly think you ought to use the command form above.<br>You can type 'add task take a stress pill, and think things'.<br/>");
+  }, 4000);
+  _.delay(function(){
+    callback("partial","Just what do you think you're doing, Dave?");
+  }, 10000);
+
+console.log(user);
+//user.firstname;
+*/
+
   socket.on('command', function (req) {
     if (! User.exists(req.user)) // should never happen, but better safe than sorry
       User.connect(req.user, function(greeting, user){
@@ -157,14 +180,16 @@ io.sockets.on('connection', function (socket) {
         var t= data, data = {}; 
         data.text = t;
       }
+      if (data.text) {
+        data.text = data.text.replace(/\n/g, '<br />');
+      }
       data.id = req.id;
       data.type = type;
       socket.emit('bot', data);
-      console.log(data);
     });
     if (result) {
-      var resultBr = result.replace('\n', '<br/>');
-      socket.emit('bot', {type:'success',id:req.id,text:resultBr});
+      result = result.replace(/\n/g, '<br />');
+      socket.emit('bot', {type:'success',id:req.id,text:result});
     };
   });
 });
