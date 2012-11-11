@@ -145,10 +145,12 @@ var io = require('socket.io').listen(server.server,{
 });
 
 io.sockets.on('connection', function (socket) {
-  socket.emit('bot', { text: 'Affirmative, Dave. I read you.' });
+  // socket.emit('bot', { text: 'Affirmative, Dave. I read you.' });
   socket.on('command', function (req) {
     if (! User.exists(req.user)) // should never happen, but better safe than sorry
-      User.connect(req.user,bot.name);
+      User.connect(req.user, function(greeting, user){
+        socket.emit('bot', {text: greeting})
+      });
     var result = bot.run (req.cmd,User.users[req.user]
       ,function (type,data){
       if (typeof data == "string") {
