@@ -28,7 +28,11 @@
     var id = data.id || "result";
     var reply = data.text || data;
     if (data.id) {
-      $('#'+id).append("<div class='alert alert-success'>"+reply+"</div>");
+      if ($('#'+id).length >0) {
+        $('#'+id).append("<div class='alert alert-success'>"+reply+"</div>");
+      } else {
+        $('#result').prepend("<div class='alert alert-success' id="+id+"><a class='close'>x</a>"+reply+"</div>");
+      }
       $("#cmd").val("");
     } else
       $('#result').prepend("<div class='alert alert-success'><a class='close'>x</a>"+reply+"</div>");
