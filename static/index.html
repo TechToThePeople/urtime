@@ -8,10 +8,18 @@
     <title>Your Time (URT.im) 9000, the friendly bot that track your time</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="/inspiritas-bootstrap/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/inspiritas-bootstrap/js/moment.min.js"></script>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var user= null;
+
+// counter punch in
+  var start = moment();
+
+  setInterval(function(){
+    $("#counter").html(moment(start).fromNow());
+  },1000);
 
   //var socket = io.connect('http://localhost');
   var socket = io.connect("/");
@@ -247,7 +255,7 @@ We will not resell your contact details nor spam you in any way, shape or form.
 
                <section id="bot" class="authenticated">
                   <div class="sub-header">
-                    <h1>Bot</h1>
+                    <h1>The bot <span>punched you in </span> <span id="counter">a second ago</span></h1>
 
     <form id="bot" class="form-horizontal">
                   <div class="row-fluid well">
