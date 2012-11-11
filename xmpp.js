@@ -32,6 +32,8 @@ cl.on('online', function() {
     .c('status').t('Happily echoing your <message/> stanzas')
 
   cl.send(element)
+
+  console.log('xmpp bot is now online as "' + conf.user + '".')
 })
 
 
