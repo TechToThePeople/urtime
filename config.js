@@ -1,15 +1,11 @@
 if (process.env.NODE_ENV ==='production') {
   exports = {
-    nokuser: { 
-        user:process.env.XMPP_USER,
-        domain:process.env.XMPP_DOMAIN
-    },
     user:process.env.XMPP_USER,
     password: process.env.XMPP_PASSWORD,
     server: 'talk.google.com',
     port: '5222' 
   };
-//console.log(exports);
+console.log(exports);
 } else {
   var cjson = require('cjson');
   var conf = cjson.load('./conf/config.json');
