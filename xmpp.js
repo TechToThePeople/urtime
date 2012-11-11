@@ -7,6 +7,7 @@ var sys = require('sys')
   , xmpp = require('node-xmpp')
   , conf = require('./config.js')
   , ConversationGarden = require('./lib/xmpp-conversation-garden.js').ConversationGarden
+  , InviteApprover = require('./lib/invite.js').InviteApprover
   , TimebotManager = require('./lib/bot/timebot.js').BotManager
 
 
@@ -17,6 +18,9 @@ var cl = new xmpp.Client({
   host: conf.server,
   port: conf.port
 });
+
+// Add the invite approver
+var inviteApprover = new InviteApprover(cl)
 
 
 // Send our online presence.
