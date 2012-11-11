@@ -89,25 +89,43 @@ jQuery(function($){
   $(document).on("click","a.close",function(event){$(this).parent().fadeOut();});
 
   $('section#timesheet').on("switch",function(){
-    $.post("/bot/do",{user:user,cmd:"timesheet"},function(data){
-      var tpl= '<table class="table table-striped full-section table-hover"><thead><tr><th>number</th><th>Task</th><th>Action</th></tr></thead><tbody>'; // I so much should have used mustache
+    $.post("/bot/do",{user:user, cmd:"timesheet"},function(data){
+      var thead = '<tr><th>Date</th><th>Time</th><th>Task</th><th>Comment</th></tr>';
+      var tbody = '';
       data = $.parseJSON(data);
-      $.each(data.tasks, function(index, value) { 
-        tpl= tpl+"<tr id='task_"+index+"'><td>"+index+"</td><td>"+value+"</td><td><a class='btn btn-primary btn-small'>Start work</a></td></tr>";
+      $.each(data.tree, function(day, slots) {
+        var rows = [];
+        $.each(slots, function(when, what) {
+          var row = "<td>"+day+"</td><td>"+when+"</td><td>"+what.tags[0]+"</td><td>"+(what.notes || '')+"</td>";
+          rows.push(row);
+        });
+        // tbody += "<tr><td rowspan='" + rows.length + "'>" + day + "</td>" + rows[0] + "</tr>";
+        for (var iRow = 0; iRow < rows.length; ++iRow) {
+          tbody += "<tr>" + rows[iRow] + "</tr>";
+        }
       });
-      tpl= tpl + '</tbody></table>';
-      $("#todo .content").html(tpl);
+      var tpl = '<thead>' + thead + '</thead><tbody>' + tbody + '</tbody>';
+      tpl = '<table class="table table-striped full-section table-hover">' + tpl + '</table>';
+      $("#timesheet .content").html(tpl);
     });
   });
 
   $('section#todo').on("switch",function(){
     $.post("/bot/do",{user:user,cmd:"todo"},function(data){
-      var tpl= '<table class="table table-striped full-section table-hover"><thead><tr><th>number</th><th>Task</th><th>Action</th></tr></thead><tbody>'; // I so much should have used mustache
+      var thead = '<th>number</th><th>Task</th>';
+      // This one doesn't work yet.
+      // thead += '<th>Action</th>';
+      thead = '<thead><tr>' + thead + '</tr></thead>';
       data = $.parseJSON(data);
+      var tbody = '';
       $.each(data.tasks, function(index, value) { 
-        tpl= tpl+"<tr id='task_"+index+"'><td>"+index+"</td><td>"+value+"</td><td><a class='btn btn-primary btn-small'>Start work</a></td></tr>";
+        var row = "<td>"+index+"</td><td>"+value+"</td>";
+        // Doesn't work yet.
+        // row += "<td><a class='btn btn-primary btn-small'>Start work</a></td>";
+        tbody += "<tr id='task_"+index+"'>" + row + "</tr>";
       });
-      tpl= tpl + '</tbody></table>';
+      tbody = '<tbody>' + tbody + '</tbody>';
+      var tpl = '<table class="table table-striped full-section table-hover">' + thead + tbody + '</table>';
       $("#todo .content").html(tpl);
     });
   });
@@ -327,6 +345,10 @@ You can as well type the command <span class="command" data-cmd="todo">todo</spa
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
+<div id='tip-todo' class='alert alert-block'>
+You can as well type the command <span class="command" data-cmd="todo">todo</span>. If you want to add a new task, type <span class="command" data-cmd="add task Open the pod bay doors">add task Open the pod bay doors</span>.
+</div>
+<div class="content"></div>
                     </div>
                 </div>
 </section>
