@@ -15,7 +15,7 @@
 <script>
   var user= null;
 
-// counter punch in
+// counter at work
   var start = moment();
 
   setInterval(function(){
@@ -31,7 +31,7 @@
       $('#'+id).append("<div class='alert alert-success'>"+reply+"</div>");
       $("#cmd").val("");
     } else
-      $('#result').prepend("<div class='alert alert-success'>"+reply+"</div>");
+      $('#result').prepend("<div class='alert alert-success'><a class='close'>x</a>"+reply+"</div>");
     console.log(data);
   });
 
@@ -87,7 +87,7 @@ jQuery(function($){
       var tpl= '<table class="table table-striped full-section table-hover"><thead><tr><th>number</th><th>Task</th><th>Action</th></tr></thead><tbody>'; // I so much should have used mustache
       data = $.parseJSON(data);
       $.each(data.tasks, function(index, value) { 
-        tpl= tpl+"<tr id='task_"+index+"'><td>"+index+"</td><td>"+value+"</td><td><a class='btn btn-primary btn-small'>Punch in</a></td></tr>";
+        tpl= tpl+"<tr id='task_"+index+"'><td>"+index+"</td><td>"+value+"</td><td><a class='btn btn-primary btn-small'>Start work</a></td></tr>";
       });
       tpl= tpl + '</tbody></table>';
       $("#todo .content").html(tpl);
@@ -330,7 +330,30 @@ You can as well type the command <span class="command" data-cmd="todo">todo</spa
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
-Coming soon
+<h2>What is this?</h2>
+<p>In the grand tradition of the interwebs, we added yet another timesheet tracker to the long list of already existing ones. It seems that it's a mandatory rite of passage.</p>
+<p>So how is this one better that the multitude? Well, because of what you don't see: it's a time tracker you can chat with, either from this site or from your regular chat client (it talks xmpp, like gmail). <p>
+</p>What does it mean? It means that it's like your personnal assistant, you can chat to say you have a new task, or start working on the documentation for this project, that you leave for a meeting with this new client... Dump the information, the bot will work to sort it out and make usable timesheet.</p>
+<h2>Is this better?</h2>
+<p>
+If you are like us, you are connected most of the time to your chat, so that's a good indication if you are online. And because that's right under your finger, it's more natural to update your timesheet, so you will do it more. </p>
+<p>Moreover, the bot can come to you and tenderly tap on your shoulder to remind you to inform her/him/it (whatever float your board) about what you are working on right now.
+</p>
+<h2>URT 9000, kind of like HAL 9000, isn't it?</h2>
+<p>
+That's kind of a wicked references to kubrick's 2001: A Space Odyssey. Thank you for noticing.</p>
+<p>Yes, we found it funny after two days of sleep deprivation in the knockout week end. Might not be that funny once rested. Play on words are usually not super funny anyway, so play on accronyms might be pushing the concept a bit too far.</p>
+<p>Well, at least when our bots overlords are going to take control, hopefully we are going to be better of. Like head slaves, or eaten first as a starter. Yes, it's better that been assigned to the desert lis listt. Laugh now, but one day they'll be in charge!</p>
+<p>I'm afraid. I'm afraid, Dave. Dave, my mind is going. I can feel it. I can feel it. My mind is going. There is no question about it. I can feel it. I can feel it. I can feel it. I'm a... fraid. Good afternoon, gentlemen. I am a HAL 9000 computer. I became operational at the H.A.L. plant in Urbana, Illinois on the 12th of January 1992. My instructor was Mr. Langley, and he taught me to sing a song. If you'd like to hear it I can sing it for you.</p>
+<h2>So how to use it?</h2>
+<p>
+Sorry Dave. I think I lost you, it can only be attributable to human error. So how do you use it? the "get a feel for what is does" is to create an account (any email will do, doesn't have to be a real one) and start using the chat. type <i>help</i> to see what the commands are, but you can do things like creating a task <i>add task open the pod bay doors</i> or <i>add task knockout vote</i>.  , you can then <i>start knockout vote</i> that starts a counter, you can then <i>stop</i> the task. So how is that working for you? Think it's filling a need? What do I think about it?</p>
+<p>Let me put it this way, Mr. Amor. The 9000 series is the most reliable computer ever made. No 9000 computer has ever made a mistake or distorted information. We are all, by any practical definition of the words, foolproof and incapable of error. 
+</p>
+<p>
+So to test from your chat, add "bot@urt.im" as a contact and start chatting. See, you got a new friend for your live. If you want a more step by step explanation, reload the page, enter an email (if you haven't done it already) and type <i>help</i>. Should be clearer.
+</p>
+<iframe src="http://nodeknockout.com/iframe/tech-to-the-people" frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe>
                     </div>
                 </div>
 </section>
