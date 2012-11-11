@@ -885,8 +885,8 @@ h4,
 h5,
 h6 {
   margin: 10px 0;
-  font-family: "Museo Slab", Georgia, "Times New Roman", Times, serif;
-  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: normal;
   line-height: 20px;
   color: #141414;
   text-rendering: optimizelegibility;
@@ -907,7 +907,7 @@ h3 {
   line-height: 40px;
 }
 h1 {
-  font-size: 35.75px;
+  font-size: 28px;
 }
 h2 {
   font-size: 29.25px;
@@ -3792,6 +3792,8 @@ input[type="submit"].btn.btn-mini {
   border-radius: 0 0 6px 6px;
 }
 .alert {
+font-family: 'Josefin Slab', serif;
+font-size:15px;
   padding: 8px 35px 8px 14px;
   margin-bottom: 20px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -4261,16 +4263,19 @@ input[type="submit"].btn.btn-mini {
 
 .navbar .brand b {
   font-weight:normal;
-  margin-left:-3px
+  position:relative;
+  top:-2px;
+  left:4px;
 }
 
 .navbar .brand b:after {
   position:relative;
-  left:-3px;
+  left:-5px;
+  top:1px;
   content:    ".";
-  font-size:  20px; 
+  font-size:  25px; 
   color:      #ccc;
-  margin:0 -4px 0 0;
+  amargin:0 -4px 0 0;
 }
 
 .navbar .brand:hover {
@@ -7508,23 +7513,6 @@ a.badge:hover {
 .affix {
   position: fixed;
 }
-/*
- * Fonts
- */
-@font-face {
-  font-family: 'League Gothic';
-  src: url('fonts/league_gothic-webfont.eot');
-  src: url('fonts/league_gothic-webfont.eot?#iefix') format('eot'), url('fonts/league_gothic-webfont.woff') format('woff'), url('fonts/league_gothic-webfont.ttf') format('truetype'), url('fonts/league_gothic-webfont.svg#webfont3XnFyBvL') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Museo Slab';
-  src: url('fonts/museo_slab_500-webfont.eot');
-  src: url('fonts/museo_slab_500-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/museo_slab_500-webfont.woff') format('woff'), url('fonts/museo_slab_500-webfont.ttf') format('truetype'), url('fonts/museo_slab_500-webfont.svg#MuseoSlab500') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
 /* 
  * Scaffolding overrides
  */
@@ -7532,7 +7520,7 @@ body {
   background: url('images/bg.png') repeat #edf0f2;
 }
 .navbar .brand {
-  font-family: "League Gothic", "Museo Slab", "Helvetica Neue", Helvetica, arial, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 37px;
   margin-left: 15px;
   text-shadow: 0 1px 1px #000000;
@@ -7607,7 +7595,7 @@ body > .container {
   border-top: 1px solid #1c1f20;
 }
 .container aside nav ul li {
-  font-size: 16.25px;
+  font-size: 20px;
   background: #20282B;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.75);
@@ -7616,7 +7604,7 @@ body > .container {
   float: none;
 }
 .container aside nav ul li i {
-  margin-right: 5px;
+  margin: 5px 5px 0 0;
 }
 .container aside nav ul li.selected {
   color: #ffffff;
@@ -7638,7 +7626,7 @@ body > .container {
   background-color: transparent !important;
 }
 .container aside nav ul li a {
-  font-family: "Museo Slab", Georgia, "Times New Roman", Times, serif;
+  font-family: 'Josefin Slab', serif;
   padding: 5px 14px 6px;
   display: block;
   color: #ffffff;
@@ -7665,7 +7653,7 @@ body > .container {
 }
 #content .kpi {
   font-size: 23.400000000000002px;
-  font-family: "Museo Slab", Georgia, "Times New Roman", Times, serif;
+  font-family: 'Orbitron', sans-serif;
 }
 #content .kpi + div small {
   overflow: hidden;
@@ -7740,7 +7728,7 @@ body > .container {
 #content .sub-header h3 {
   font-size: 11.049999999999999px;
   margin: 0;
-  font-family: "Lucida Grande", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-weight: normal;
   line-height: 26px;
 }
