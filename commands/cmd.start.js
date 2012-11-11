@@ -1,7 +1,5 @@
-
-
-function punchin(msg, user) {
-  var m = msg.match(/^punchin (\!|)(.*)$/)
+function run (msg, user) {
+  var m = msg.match(/^start (\!|)(.*)$/)
   if (m) {
     var taskList = user.getTaskList()
       , comment = null
@@ -16,25 +14,25 @@ function punchin(msg, user) {
     }
     if (taskList.taskExists(task)) {
       user.start(task, comment)
-      return "punchin task: '" + task + "'" + commentMsg;
+      return "start task: '" + task + "'" + commentMsg;
     }
     else if (force && taskList.addTask(task)) {
       user.start(task, comment)
-      return "punchin *new* task: '" + task + "'" + commentMsg;
+      return "start *new* task: '" + task + "'" + commentMsg;
     }
     else if (force) {
       return "Failed to create task '" + task + "'."
     }
     else {
       return "Task '" + task + "' does not exist.\n" +
-        "You can force its creation with 'punchin !" + task + "',\n" +
+        "You can force its creation with 'start !" + task + "',\n" +
         "or with 'addtask " + task + "'"
     }
   }
   else {
-    return "Syntax: 'punchin <task name>[, <comment>]'"
+    return "Syntax: 'start <task name>[, <comment>]'"
   }
 }
 
-module.exports = function(bot) {return {run: punchin}}
+module.exports = function(bot) {return {run: run}}
 
