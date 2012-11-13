@@ -8,6 +8,7 @@ if (process.env.NODE_ENV ==='production') {
 } else {
   var cjson = require('cjson');
   var conf = cjson.load('./conf/config.json');
+  exports.civicrm =conf.civicrm;
   for (var k in conf) {
     exports[k] = conf[k];
   }
