@@ -33,8 +33,7 @@ function run (msg, user) {
     }
     else {
       return "Task '" + task + "' does not exist.\n" +
-        "You can force its creation with 'start !" + task + "',\n" +
-        "or with 'addtask " + task + "'"
+        "Would you like to create it?\n Yes or No?"
     }
   }
   else {

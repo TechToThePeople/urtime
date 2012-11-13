@@ -1,9 +1,9 @@
-var commandsJs = require('../lib/commands.js')
+var command = require('../lib/commands.js')
 
 
 function run(msg, user, say) {
   setTimeout(function(){
-    say('message', commandsJs.getCommandsHelp())
+    say('message', command.help())
   }, 600)
   say('message', user.firstname + "... I'm afraid I can't let you do that." +
     " \nInvalid command '" + msg + "'")
