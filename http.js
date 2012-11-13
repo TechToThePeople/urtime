@@ -155,14 +155,15 @@ var io = require('socket.io').listen(server.server,{
 io.sockets.on('connection', function (socket) {
 
   socket.on('connect', function (req) {
+console.log ("here");
     var uniq = 'reply' + (new Date()).getTime();
       socket.emit ('bot', {type:"alert",text: "Affirmative, Dave. I read you.", id:uniq});      
       User.connect(req.user, function(greeting, user){
-  console.log(user);
         _.delay(function(){
            socket.emit ('bot', {id:uniq, text: "I've still got the greatest enthusiasm and confidence in the mission. And I want to help you, "+ user.firstname+".<br>I have assigned you to the task 'Procastination'."});
          socket.emit ('work', {task:0, action:"start"});
         }, 3000);
+  console.log("return from connect");
 
         _.delay(function(){
           socket.emit ('bot', {id:uniq, text: "Look "+user.firstname+", I can see you're really upset about this.<br>I honestly think you ought to use the command form above.<br>You can type <i>'add task take a stress pill, and think things'</i>.<br/> Or any other task. it just has to start by <i>add task </i>, so I know what to do"});
