@@ -878,6 +878,7 @@ a.text-info:hover {
 a.text-success:hover {
   color: #356635;
 }
+
 h1,
 h2,
 h3,
@@ -3829,10 +3830,18 @@ font-size:15px;
   border-color: #bce8f1;
   color: #3a87ad;
 }
+
+.alert-question {
+  background-color: #0c74f7;
+  color:#eee
+}
+
 .alert-block {
   padding-top: 14px;
   padding-bottom: 14px;
 }
+
+
 .alert-block > p,
 .alert-block > ul {
   margin-bottom: 0;

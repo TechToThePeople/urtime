@@ -1,11 +1,11 @@
 var command = require('../lib/commands.js')
 
 
-function run(msg, user, say) {
+function run(msg, user, callback) {
   setTimeout(function(){
-    say('message', command.help())
+    callback('message', command.help().run(msg,user,callback))
   }, 600)
-  say('message', user.firstname + "... I'm afraid I can't let you do that." +
+  callback ('error', user.firstname + "... I'm afraid I can't let you do that." +
     " \nInvalid command '" + msg + "'")
 }
 

@@ -1,8 +1,23 @@
-function run (msg, user) {
+var name = "start";
+var _ = require('underscore');
+
+var trigger= function(msg, user) {
+  if ( user.lastcmd && (user.lastcmd.name == name) && !isNaN(parseFloat(msg)) && isFinite(msg) ) {
+    return true; //it's the number of a task (dialog mode)
+  }
+  return name == msg || msg.indexOf(name + " ") == 0;
+} 
+
+function run (msg, user,callback) {
+  var taskList = user.getTaskList();
+
+  if (!isNaN(parseFloat(msg)) && isFinite(msg) ) {
+    startNumber(task,user,callback);
+  }
+
   var m = msg.match(/^start (\!|)(.*)$/)
   if (m) {
-    var taskList = user.getTaskList()
-      , comment = null
+      var comment = null
       , commentMsg = ''
       , force = (m[1] ? true : false)
       , task = m[2]
@@ -13,12 +28,7 @@ function run (msg, user) {
       commentMsg = "\nNote: '" + comment + "'"
     }
     if (!isNaN(task)) {
-      var taskId = 1 * task
-      task = taskList.taskById(taskId)
-      if (!task) {
-        return "There is no task with id " + taskId + ".\n" +
-          "Use 'todo' to show existing tasks, or 'add task' to create new ones."
-      }
+      startNumber(task,user,callback);
     }
     if (taskList.taskExists(task)) {
       user.start(task, comment)
@@ -37,9 +47,59 @@ function run (msg, user) {
     }
   }
   else {
-    return "Syntax: 'start <task name>[, <comment>]'"
+    var tasks = taskList.getActiveTasks()
+    if (tasks.length) {
+      var rows = []
+      for (var i = 0; i < tasks.length; ++i) {
+        rows.push('\n' + i + '. ' + tasks[i])
+      }
+      callback ("partial", {
+        text: "On your todo: "+rows.join(''),
+        tasks: tasks
+      });
+      _.delay(function(){
+        callback("question","Type the number (between 0 and "+ (tasks.length -1) +") of the task you want to start");
+      }, 1500);
+    }
+//    callback("final",)
+//    return "Syntax: 'start {task name}[, comment]'"
+  }
+
+  function startNumber (task, user,callback) {
+    var taskId = 1 * task
+    task = taskList.taskById(taskId)
+    var rows = []
+    for (var i = 0; i < taskList.getActiveTasks().length; ++i) {
+      rows.push('\n' + i + '. ' + taskList.getActiveTasks()[i])
+    }
+    if (!task) {
+      callback ("error", {
+        text: "There is no task number " + taskId + ".\n" +
+        "Use 'add task' to create a new one or choose among your tasks",
+      });
+      _.delay(function(){
+        callback ("partial", {
+          text: "On your todo: "+rows.join(''),
+          tasks: taskList.getActiveTasks()
+        });
+      }, 1000);
+
+      _.delay(function(){
+        callback("question","Which one do you want to start? (number between 0 and "+ (taskList.getActiveTasks().length -1));
+      }, 1500);
+      return;
   }
 }
 
-module.exports = function(bot) {return {run: run}}
 
+}
+/*
+
+*/
+module.exports = function () {
+  return {
+    name:name,
+    trigger:trigger,
+    run:run
+  };
+};
