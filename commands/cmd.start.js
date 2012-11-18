@@ -5,17 +5,18 @@ var trigger= function(msg, user) {
   if ( user.lastcmd && (user.lastcmd.name == name) && !isNaN(parseFloat(msg)) && isFinite(msg) ) {
     return true; //it's the number of a task (dialog mode)
   }
+//TODO: deal with yes/no on create task
   return name == msg || msg.indexOf(name + " ") == 0;
 } 
 
 function run (msg, user,callback) {
   var taskList = user.getTaskList();
 
-  if (!isNaN(parseFloat(msg)) && isFinite(msg) ) {
-    startNumber(task,user,callback);
+  if (!isNaN(parseFloat(msg)) && isFinite(msg) ) { // dialog, it's the number of a task
+    return startNumber(msg,user,callback);
   }
 
-  var m = msg.match(/^start (\!|)(.*)$/)
+  var m = msg.match(/^start (\!|)(.*)$/) // refactoring-> mv to this.param(msg) ?? 
   if (m) {
       var comment = null
       , commentMsg = ''
@@ -27,8 +28,8 @@ function run (msg, user,callback) {
       comment = mm[2]
       commentMsg = "\nNote: '" + comment + "'"
     }
-    if (!isNaN(task)) {
-      startNumber(task,user,callback);
+    if (!isNaN(task)) { 
+      return startNumber(task,user,callback);
     }
     if (taskList.taskExists(task)) {
       user.start(task, comment)
@@ -42,8 +43,12 @@ function run (msg, user,callback) {
       return "Failed to create task '" + task + "'."
     }
     else {
-      return "Task '" + task + "' does not exist.\n" +
-        "Would you like to create it?\n Yes or No?"
+      _.delay(function(){
+        callback("question","Yes or No?");
+      }, 1000);
+      return callback ("partial", {
+        text: "Task '" + task + "' does not exist, Would you like to create it?"
+      });
     }
   }
   else {
@@ -68,11 +73,19 @@ function run (msg, user,callback) {
   function startNumber (task, user,callback) {
     var taskId = 1 * task
     task = taskList.taskById(taskId)
-    var rows = []
-    for (var i = 0; i < taskList.getActiveTasks().length; ++i) {
-      rows.push('\n' + i + '. ' + taskList.getActiveTasks()[i])
-    }
+
+    if (task) {
+      callback ("success", {
+        text: "starting "+task +"\nType 'stop {description of the work you did} when finished'"
+      });
+      return;
+    } 
+
     if (!task) {
+      var rows = []
+      for (var i = 0; i < taskList.getActiveTasks().length; ++i) {
+        rows.push('\n' + i + '. ' + taskList.getActiveTasks()[i])
+      }
       callback ("error", {
         text: "There is no task number " + taskId + ".\n" +
         "Use 'add task' to create a new one or choose among your tasks",
