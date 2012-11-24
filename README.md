@@ -12,8 +12,10 @@ create a config/conf.js file containing a
  "password": "topsecret",
  "server": "xmpp.example.org",
  "port": "5222",
+ "commandGroups":["main","test","timetrack"]
 }
 
+The commandGroups defines which folder(s) to include under the commands one.
 # TODO
 ## Testing
 We need unit tests. They are quite a few solutions for testing node projects but we don't have any experience in any of them. We would love to have some advice about it.

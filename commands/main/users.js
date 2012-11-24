@@ -1,5 +1,5 @@
 var _ = require ('underscore');
-var users = require ('../lib/user.js').User.users;
+var users = require ('../../lib/user.js').User.users;
 
 function run(msg, user, callback) {
   var nb = _.keys(users).length;

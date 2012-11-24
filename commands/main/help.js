@@ -1,4 +1,4 @@
-var commandsJs = require('../lib/commands.js')
+var commandsJs = require('../../lib/commands.js')
 
 function run (msg, user,callback) {
   commands = commandsJs.all();

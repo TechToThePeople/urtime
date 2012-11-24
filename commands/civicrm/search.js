@@ -1,4 +1,4 @@
-var crmAPI = require('civicrm')(require('../config.js').civicrm);
+var crmAPI = require('civicrm')(require('../../config.js').civicrm);
 //crmAPI.init ( require('../config.js').civicrm);
 function run(msg, user, callback) {
   var data = {};

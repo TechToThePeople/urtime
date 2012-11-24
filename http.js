@@ -6,10 +6,12 @@ var filed = require('filed');
 var mime = require('mime');
 var _ = require('underscore');
 
+var conf = require('./config.js')
 var User = require('./lib/user.js').User;
 var Bot = require ('./lib/bot.js').Bot;
 
 var bot = new Bot({'name':'web',
+commandGroups:conf.commandGroups,
 });
 
 //adapted from mcavage https://github.com/mcavage/node-restify/issues/101

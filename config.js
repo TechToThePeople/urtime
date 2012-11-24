@@ -12,5 +12,6 @@ if (process.env.NODE_ENV ==='production') {
   for (var k in conf) {
     exports[k] = conf[k];
   }
+  exports.commandGroups = ["main","test","timetrack","civicrm"]
 };
 
