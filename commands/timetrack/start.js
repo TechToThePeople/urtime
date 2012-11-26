@@ -21,7 +21,7 @@ function run (msg, user,callback) {
       commentMsg = "\nNote: '" + comment + "'"
     }
     if (!isNaN(task)) { 
-      return startNumber(task,user,callback);
+      return  require("./start.number.js")().run(task,user,callback);
     }
     if (taskList.taskExists(task)) {
       user.start(task, comment)
