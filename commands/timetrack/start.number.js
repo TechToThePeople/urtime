@@ -34,13 +34,13 @@ function run (task, user,callback) {
       callback("question","Which one do you want to start? (number between 0 and "+ (taskList.getActiveTasks().length -1));
     }, 1500);
     return;
-}
-console.log ("create task " + this.task);
-user.start(this.task);
-user.removeContextual(this);
-callback ("success", {
-  text: "Working on "+this.task
-});
+  }
+  console.log ("create task " + this.task);
+  user.start(this.task);
+  user.removeContextual(this);
+  callback ("success", {
+    text: "Working on "+this.task
+  });
 }
 
 module.exports = function(task) {return {task:task, trigger:trigger, contextual:true, name:"number create task", run: run}}
