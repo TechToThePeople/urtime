@@ -5,14 +5,14 @@ var trigger= function(msg, user) {
 } 
 
 function run (index, user,callback) {
-  callback("info",this.contacts[index].display_name);
+  callback("partial",this.contacts[index].display_name);
   crmAPI.get ('phone',{contact_id:this.contacts[index].contact_id},function (result){
     result.text ="";
     for (var i in result.values) {
       val = result.values[i];
       result.text = result.text +"\n"+val.phone;
     }
-    callback("info",result);
+    callback("success",result);
   });
 
 }

@@ -3,6 +3,7 @@ var crmAPI = require('civicrm')(require('../../config.js').civicrm);
 //crmAPI.init ( require('../config.js').civicrm);
 function run(msg, user, callback) {
   var data = {};
+  callback("partial","searching for "+msg+"...");
   crmAPI.get ('contact',{sort_name:this.param(msg),contact_type:'Individual',return:'display_name,email,phone'},
   function (result) {
 
@@ -20,7 +21,7 @@ function run(msg, user, callback) {
     _.delay(function(){
       callback("question","Type the number (between 0 and "+ (data.contacts.length -1) +") of the task you want to start");
     }, 800);
-    callback("info",data);
+    callback("partial",data);
   });
 }
 
