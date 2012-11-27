@@ -8,7 +8,7 @@ function run(msg, user, callback) {
   function (result) {
 
     function format (contact) {
-      return contact.display_name+ " "+contact.email+ " "+ contact.phone;
+      return contact.display_name+ " "+(contact.email || "") + " "+ (contact.phone || "");
     };
 
     data.contacts = result.values;
@@ -19,7 +19,7 @@ function run(msg, user, callback) {
       data.text = data.text +"\n"+i +": "+ format (val);
     }
     _.delay(function(){
-      callback("question","Type the number (between 0 and "+ (data.contacts.length -1) +") of the task you want to start");
+      callback("question","Type a number (between 0 and "+ (data.contacts.length -1) +") to view more info");
     }, 800);
     callback("partial",data);
   });
