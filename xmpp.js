@@ -49,7 +49,10 @@ cl.on('online', function() {
 var convGarden = new ConversationGarden(cl)
 
 // register the manager for the timebot
-convGarden.observeConversations(new TimebotManager({}))
+convGarden.observeConversations(new TimebotManager({ 
+  name:'xmpp',
+  commandGroups:conf.commandGroups,
+}));
 
 
 

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "node-xmpp": "0.3.x",
+    "civicrm": "latest",
     "cjson": ">=0.2.1",
     "underscore": ">=1.4.2",
     "stn": ">=0.0.8",
