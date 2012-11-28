@@ -10,14 +10,24 @@ commandGroups:conf.commandGroups,
 User.connect("Dave", function(greeting){});
 
 describe('Command', function(){
-  describe('#help', function(){
-    it('should return a list of commands', function(done){
-      var result = bot.run ("help",User.users["Dave"],function (type,data){
-        console.log(typeof data);
+  describe('#ping', function(){
+    it('should return pong', function(done){
+      var result = bot.run ("ping",User.users["Dave"],function (type,data){
+        assert.equal("pong",data);
         done();
-//      assert.equal(1,data);
       });
-//      assert.equal(,);
+    })
+  })
+  describe('#echo', function(){
+    it('should return 42', function(done){
+      var result = bot.run ("echo 42",User.users["Dave"],function (type,data){
+        assert.equal("say 42",data);
+        done();
+      });
+      if (result) {
+        assert.equal("say 42",result);
+        done();
+      }
     })
   })
 })
