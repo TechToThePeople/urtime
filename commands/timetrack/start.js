@@ -10,7 +10,7 @@ function run (msg, user,callback) {
 
   var m = msg.match(/^start (\!|)(.*)$/) // refactoring-> mv to this.param(msg) ?? 
   if (m) {
-      var comment = null
+    var comment = null
       , commentMsg = ''
       , force = (m[1] ? true : false)
       , task = m[2]
