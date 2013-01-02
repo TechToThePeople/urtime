@@ -23,6 +23,10 @@
     "moment": "1.7.x",
     "node-stringprep": ">=0.1.5"
   },
+  "devDependencies": {
+    "chai": "*",
+    "mocha": "*"
+  },
   "engines": {
     "node": "0.8.x"
   },

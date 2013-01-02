@@ -5,6 +5,9 @@ var trigger= function(msg, user) {
 } 
 
 function run (index, user,callback) {
+  user.addContextual (require("./add.phone.js")(this.contacts[index]));
+//  user.addContextual (require("./add.email.js")(this.contacts[index]),false);
+//  user.addContextual (require("./add.employer.js")(this.contacts[index]),false);
   callback("partial",this.contacts[index].display_name);
   crmAPI.get ('phone',{contact_id:this.contacts[index].contact_id},function (result){
     result.text ="";
