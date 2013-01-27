@@ -1,9 +1,14 @@
 var _ = require("underscore");
 var crmAPI = require('civicrm')(require('../../config.js').civicrm);
-//crmAPI.init ( require('../config.js').civicrm);
+
+var trigger= function(msg, user) {
+    return this.name == msg ||  msg.indexOf("/s ") ==0 || msg.indexOf(this.name + " ") == 0;
+} 
+
+
 function run(msg, user, callback) {
   var data = {};
-  callback("partial","searching for "+msg+"...");
+  callback("partial","searching for "+this.param(msg)+"...");
   crmAPI.get ('contact',{sort_name:this.param(msg),contact_type:'Individual',return:'display_name,email,phone'},
   function (result) {
 
@@ -25,4 +30,4 @@ function run(msg, user, callback) {
   });
 }
 
-module.exports = function(bot){return {run: run}}
+module.exports = function(bot){return {run: run,trigger:trigger}}
