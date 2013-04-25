@@ -16,13 +16,12 @@ commandGroups:conf.commandGroups,
 
 //adapted from mcavage https://github.com/mcavage/node-restify/issues/101
 function serve(req, res, next) {
-    var fname = path.normalize('./static' + req.path);
+    var fname = path.normalize('./static' + req.path());
     var log = req.log;
 
     /* JSSTYLED */
     if (!/^static\/?.*/.test(fname))
         return next(new restify.NotAuthorizedError());
-
     res.contentType = mime.lookup(fname);
     var f = filed(fname);
     f.pipe(res);
